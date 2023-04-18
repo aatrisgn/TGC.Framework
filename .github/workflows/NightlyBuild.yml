@@ -1,0 +1,23 @@
+name: Nightly build
+
+on:
+  schedule:
+  - cron: '0 5 * * *'
+  # configure manual trigger
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    # We need this because GitHub needs to clone the branch to pipeline
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: main
+
+    - name: Build TGC.AzureTableStorage
+      uses: './.github/workflows/TGC.AzureTableStorage' #Just need to pass the path from action
+
+    - name: Build TGC.CSharpCodingStandards
+      uses: './.github/workflows/TGC.TGC.CSharpCodingStandards' #Just need to pass the path from action
