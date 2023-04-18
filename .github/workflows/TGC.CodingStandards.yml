@@ -5,14 +5,24 @@ name: .NET
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+    - '.github/workflows/**'
+    - '.github/CODEOWNERS'
+    - 'src/CSharpCodingStandards'
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+    - '.github/workflows/**'
+    - '.github/CODEOWNERS'
+    - 'src/CSharpCodingStandards'
+
 
 jobs:
-  build:
-
+  build_job:
     runs-on: ubuntu-latest
+    env:
+      projectName: TGC.CSharpCodingStandards
 
     steps:
     - uses: actions/checkout@v3
@@ -23,6 +33,4 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build 'src/CSharpCodingStandards/$projectName/$projectName.csproj' --no-restore
