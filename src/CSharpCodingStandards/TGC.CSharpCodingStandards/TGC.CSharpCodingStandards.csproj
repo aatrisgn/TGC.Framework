@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+	<Version>1.0.0</Version>
+	<AssemblyVersion>1.0.0.0</AssemblyVersion>
+	<FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Content Include=".editorconfig" Pack="true" PackagePath="content\Rules\">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+	  <None Update="TGC.CSharpCodingStandards.props" Pack="true" PackagePath="build\">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

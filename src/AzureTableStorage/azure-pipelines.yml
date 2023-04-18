@@ -1,0 +1,86 @@
+trigger:
+  branches:
+    include:
+      - '*'
+  paths:
+    include:
+      - src/AzureTableStorage/TGC.AzureTableStorage/TGC.AzureTableStorage/*
+      - src/AzureTableStorage/Readme.md
+      - src/AzureTableStorage/azure-pipelines.yml
+      - src/AzureTableStorage/variables.yml
+
+variables:
+  azureSubscription: 'Azure ServiceConnection'
+  appName: 'scrumtimer-fapp'
+  csproj: '**/TGC.AzureTableStorage.csproj'
+  csprojTests: '**/TGC.AzureTableStorage.Tests.csproj'
+  BuildConfiguration: 'release'
+  artifactName: 'TGC.AzureTableStorage'
+      
+stages:
+  - stage: build
+    jobs:
+      - job: build
+        displayName: Build and save as artifact
+
+        pool:
+          name: Azure Pipelines
+          vmImage: ubuntu-latest
+
+        steps:
+        - checkout: self 
+
+        - task: NuGetToolInstaller@1
+          displayName: 'Install NuGet'
+        
+        - task: DotNetCoreCLI@2
+          displayName: Restore
+          inputs:
+            command: 'restore'
+            projects: $(csproj)
+            feedsToUse: 'select'
+
+        - task: DotNetCoreCLI@2
+          displayName: Build
+          inputs:
+            projects: $(csproj)
+            arguments: '--configuration $(BuildConfiguration)'
+
+        - task: DotNetCoreCLI@2
+          displayName: Test
+          inputs:
+            command: test
+            projects: $(csprojTests)
+            arguments: '--configuration $(BuildConfiguration)'
+
+        - task: DotNetCoreCLI@2
+          displayName: "Pack"
+          inputs:
+            command: pack
+            projects: $(csproj)
+            arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-build'
+
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifact'
+          inputs:
+            targetPath: '$(build.artifactstagingdirectory)/*.nupkg'
+            ArtifactName: 'TGC.AzureTableStorage'
+          condition: succeededOrFailed()
+
+  - stage: Publish
+    jobs:
+      - job: PublishPackage
+        displayName: Publish to feed
+        condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+        - download: current
+          artifact: 'TGC.AzureTableStorage'
+        - task: NuGetCommand@2
+          inputs:
+            command: push
+            nuGetFeedType: 'internal'
+            publishVstsFeed: 'Platform'
+            packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+            allowPackageConflicts: false

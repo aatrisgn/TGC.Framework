@@ -1,0 +1,88 @@
+trigger:
+  branches:
+    include:
+      - '*'
+  paths:
+    include:
+      - src/EFCoreRepositories/TGC.AzureTableStorage/*
+      - src/EFCoreRepositories/Readme.md
+      - src/EFCoreRepositories/azure-pipelines.yml
+      - src/EFCoreRepositories/variables.yml
+
+variables:
+  azureSubscription: 'Azure ServiceConnection'
+  csproj: '**/TGC.EFCoreRepositories.csproj'
+  csprojTests: '**/TGC.EFCoreRepositories.Tests.csproj'
+  BuildConfiguration: 'release'
+  artifactName: 'TGC.EFCoreRepositories'
+      
+stages:
+  - stage: build
+    jobs:
+      - job: build
+        displayName: Build and save as artifact
+
+        pool:
+          name: Azure Pipelines
+          vmImage: ubuntu-latest
+
+        steps:
+        - checkout: self 
+
+        - task: NuGetToolInstaller@1
+          displayName: 'Install NuGet'
+        
+        - task: DotNetCoreCLI@2
+          displayName: Restore
+          inputs:
+            command: 'restore'
+            projects: $(csproj)
+            feedsToUse: config
+            nugetConfigPath: nuget.config
+
+        - task: DotNetCoreCLI@2
+          displayName: Build
+          inputs:
+            projects: $(csproj)
+            feedsToUse: config
+            nugetConfigPath: nuget.config
+            arguments: '--configuration $(BuildConfiguration)'
+
+        - task: DotNetCoreCLI@2
+          displayName: Test
+          inputs:
+            command: test
+            projects: $(csprojTests)
+            arguments: '--configuration $(BuildConfiguration)'
+
+        - task: DotNetCoreCLI@2
+          displayName: "Pack"
+          inputs:
+            command: pack
+            projects: $(csproj)
+            arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) --no-build'
+
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Artifact'
+          inputs:
+            targetPath: '$(build.artifactstagingdirectory)/*.nupkg'
+            ArtifactName: 'TGC.EFCoreRepositories'
+          condition: succeededOrFailed()
+
+  - stage: Publish
+    jobs:
+      - job: PublishPackage
+        displayName: Publish to feed
+        condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+        - download: current
+          artifact: 'TGC.EFCoreRepositories'
+        - task: NuGetCommand@2
+          inputs:
+            command: push
+            nuGetFeedType: 'internal'
+            publishVstsFeed: 'Platform'
+            packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
+            allowPackageConflicts: false

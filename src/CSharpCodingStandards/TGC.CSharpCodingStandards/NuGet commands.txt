@@ -1,0 +1,6 @@
+﻿dotnet pack .\TGC.CSharpCodingStandards.csproj -c Release -o out --no-restore /p:Version=1.0.8
+nuget add .\out\TGC.CSharpCodingStandards.1.0.8.nupkg -Source C:\Users\AsgerBondeThyregod\test_nuget_expand\ -Expand
+dotnet add package TGC.CSharpCodingStandards -s C:\Users\AsgerBondeThyregod\test_nuget_expand\ -v 1.0.8
+
+https://devzone.channeladam.com/notebooks/languages/dotnet/editorconfig-distribution/
+https://hackernoon.com/how-to-use-common-editorconfig-as-a-nuget-package
