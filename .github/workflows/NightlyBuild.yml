@@ -17,7 +17,7 @@ jobs:
         ref: main
 
     - name: Build TGC.AzureTableStorage
-      uses: './.github/workflows/TGC.AzureTableStorage' #Just need to pass the path from action
+      uses: './.github/workflows/TGC.AzureTableStorage.yml' #Just need to pass the path from action
 
     - name: Build TGC.CSharpCodingStandards
-      uses: './.github/workflows/TGC.TGC.CSharpCodingStandards' #Just need to pass the path from action
+      uses: './.github/workflows/TGC.TGC.CSharpCodingStandards.yml' #Just need to pass the path from action
