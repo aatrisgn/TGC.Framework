@@ -34,7 +34,11 @@ jobs:
 
     - name: Read VERSION file
       id: getversion
-      run: echo "::set-output name=version::$(cat src/$folder_name/VERSION.txt)"
+      run: echo "version=$(cat src/$folder_name/VERSION.txt)" >> $GITHUB_OUTPUT
+
+    - name: Read VERSION file
+      id: getversion
+      run: echo ${{ steps.getversion.outputs.version }}
 
     - name: Restore dependencies
       run: dotnet restore src/$folder_name/$project_name/$project_name.csproj
@@ -45,7 +49,7 @@ jobs:
     - name: Pack
       run: dotnet pack src/$folder_name/$project_name/$project_name.csproj -p:PackageVersion=1.0.1
 
-    - name: Publish
-      if: startsWith(github.ref, 'refs/heads/main')
-      run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGETKEY }}
+    # - name: Publish
+    #   if: startsWith(github.ref, 'refs/heads/main')
+    #   run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGETKEY }}
 
