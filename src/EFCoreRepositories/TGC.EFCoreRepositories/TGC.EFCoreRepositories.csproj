@@ -37,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	<None Include="README.md" Pack="true" PackagePath="\"/>
     <EditorConfigFiles Update="C:\src\personal\Platform\src\EFCoreRepositories\TGC.EFCoreRepositories\.editorconfig">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EditorConfigFiles>

@@ -11,13 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # We need this because GitHub needs to clone the branch to pipeline
-    - name: Checkout
-      uses: actions/checkout@v2
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
       with:
-        ref: main
+        dotnet-version: 6.0.x    
 
-    - name: Build TGC.AzureTableStorage
-      uses: './.github/workflows/TGC.AzureTableStorage.yml' #Just need to pass the path from action
+    - name: Restore dependencies
+      run: dotnet restore src/**/*.csproj
 
-    - name: Build TGC.CSharpCodingStandards
-      uses: './.github/workflows/TGC.TGC.CSharpCodingStandards.yml' #Just need to pass the path from action
+    - name: Build
+      run: dotnet build src/**/*.csproj --no-restore
+
+    - name: Test
+      run: dotnet test src/**/*Tests.csproj --no-restore
+
+    - name: Pack
+      run: dotnet pack src/**/*.csproj
