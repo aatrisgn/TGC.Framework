@@ -1,24 +1,25 @@
-name: Build TGC.AzureTableStorage
+name: Build TGC.CodingStandards
 
 on:
   push:
     branches: ["main"]
     paths:
-    - '.github/workflows/TGC.AzureTableStorage.yml'
-    - 'src/AzureTableStorage/**'
+    - '.github/workflows/TGC.CSharpCodingStandards.yml'
+    - '.github/CODEOWNERS'
+    - 'src/CSharpCodingStandards/**'
   pull_request:
     branches: ["main"]
     paths:
-    - '.github/workflows/TGC.AzureTableStorage.yml'
-    - 'src/AzureTableStorage/**'
+    - '.github/workflows/TGC.CSharpCodingStandards.yml'
+    - '.github/CODEOWNERS'
+    - 'src/CSharpCodingStandards/**'
 
 jobs:
   build_job:
     runs-on: ubuntu-latest
-
     env:
-      folder_name: AzureTableStorage
-      project_name: TGC.AzureTableStorage
+      folder_name: CSharpCodingStandards
+      project_name: TGC.CSharpCodingStandards
 
     steps:
     - uses: actions/checkout@v3
@@ -29,16 +30,11 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.x    
 
     - name: Read VERSION file
       id: getversion
       run: echo "version=$(cat src/$folder_name/VERSION.txt)" >> $GITHUB_OUTPUT
-
-    - name: Build
-      shell: pwsh
-      run: |
-        ..\scripts\build.ps1 -RootPath src/$folder_name/$project_name -AssemblyVersion ${{ steps.getversion.outputs.version }}
 
     - name: Restore dependencies
       run: dotnet restore src/$folder_name/$project_name/$project_name.csproj
