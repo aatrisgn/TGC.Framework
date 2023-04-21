@@ -37,7 +37,7 @@ jobs:
       run: echo "version=$(cat src/$folder_name/VERSION.txt)" >> $GITHUB_OUTPUT
 
     - name: Read VERSION file
-      id: getversion
+      id: printversion
       run: echo ${{ steps.getversion.outputs.version }}
 
     - name: Restore dependencies
