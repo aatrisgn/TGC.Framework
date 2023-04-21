@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # We need this because GitHub needs to clone the branch to pipeline
-    - name: Checkout
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
+    - name: Setup .NET Core SDK 6.0.x
+      uses: actions/setup-dotnet@v3
       with:
-        ref: main
         dotnet-version: 6.0.x
 
     - name: Setup NuGet
@@ -35,13 +35,13 @@ jobs:
         dotnet-version: 6.0.x    
 
     - name: Restore dependencies
-      run: dotnet restore src/**/*.csproj
+      run: dotnet restore *.csproj
 
     - name: Build
-      run: dotnet build src/**/*.csproj --no-restore
+      run: dotnet build --no-restore
 
     - name: Test
-      run: dotnet test src/**/*.csproj --no-restore
+      run: dotnet test --no-restore
 
     - name: Pack
-      run: dotnet pack src/**/*.csproj
+      run: dotnet pack
