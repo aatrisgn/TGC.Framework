@@ -20,13 +20,13 @@ jobs:
         dotnet-version: 6.0.x    
 
     - name: Restore dependencies
-      run: dotnet restore src/**/*.csproj
+      run: dotnet restore **/*.csproj
 
     - name: Build
-      run: dotnet build src/**/*.csproj --no-restore
+      run: dotnet build **/*.csproj --no-restore
 
     - name: Test
-      run: dotnet test src/**/*Tests.csproj --no-restore
+      run: dotnet test **/*Tests.csproj --no-restore
 
     - name: Pack
-      run: dotnet pack src/**/*.csproj
+      run: dotnet pack **/*.csproj
