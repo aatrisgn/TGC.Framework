@@ -38,7 +38,7 @@ jobs:
     - name: Set Assembly Version
       shell: pwsh
       run: |
-        ..\scripts\SetAssemblyVersion.ps1 -RootPath src/$folder_name/$project_name -AssemblyVersion ${{ steps.getversion.outputs.version }}
+        .github/scripts/SetAssemblyVersion.ps1 -RootPath src/$folder_name/$project_name -AssemblyVersion ${{ steps.getversion.outputs.version }}
 
     - name: Restore dependencies
       run: dotnet restore src/$folder_name/$project_name/$project_name.csproj
