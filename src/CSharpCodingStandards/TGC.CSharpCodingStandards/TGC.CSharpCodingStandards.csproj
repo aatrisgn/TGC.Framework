@@ -14,9 +14,6 @@
 	<Authors>Asger Thyregod</Authors>
     <Company>Thyregod Consulting</Company>
     <Product>TGC.CSharpCodingStandards</Product>
-    <Description>Json.NET is a popular high-performance JSON framework for .NET</Description>
-    <Copyright>Copyright © James Newton-King 2008</Copyright>
-    <Summary>Json.NET is a popular high-performance JSON framework for .NET</Summary>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
