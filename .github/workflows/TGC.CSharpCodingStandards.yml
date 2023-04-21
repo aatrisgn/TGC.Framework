@@ -20,7 +20,6 @@ jobs:
     env:
       folder_name: CSharpCodingStandards
       project_name: TGC.CSharpCodingStandards
-      project_path: src/$folder_name/$project_name/$project_name.csproj
 
     steps:
     - uses: actions/checkout@v3
@@ -34,13 +33,13 @@ jobs:
         dotnet-version: 6.0.x    
 
     - name: Restore dependencies
-      run: dotnet restore $project_path
+      run: dotnet restore src/$folder_name/$project_name/$project_name.csproj
 
     - name: Build
-      run: dotnet build $project_path --no-restore
+      run: dotnet build src/$folder_name/$project_name/$project_name.csproj --no-restore
 
     - name: Pack
-      run: dotnet pack $project_path -p:PackageVersion=1.0.0
+      run: dotnet pack src/$folder_name/$project_name/$project_name.csproj -p:PackageVersion=1.0.0
 
     - name: Publish
       if: startsWith(github.ref, 'refs/heads/main')
