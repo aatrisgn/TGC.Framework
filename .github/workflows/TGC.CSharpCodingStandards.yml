@@ -6,13 +6,13 @@ on:
     paths:
     - '.github/workflows/TGC.CSharpCodingStandards.yml'
     - '.github/CODEOWNERS'
-    - 'src/CSharpCodingStandards'
+    - 'src/CSharpCodingStandards/**'
   pull_request:
     branches: ["main"]
     paths:
     - '.github/workflows/TGC.CSharpCodingStandards.yml'
     - '.github/CODEOWNERS'
-    - 'src/CSharpCodingStandards'
+    - 'src/CSharpCodingStandards/**'
 
 jobs:
   build_job:
@@ -32,6 +32,10 @@ jobs:
       with:
         dotnet-version: 6.0.x    
 
+    - name: Read VERSION file
+      id: getversion
+      run: echo "::set-output name=version::$(cat src/$folder_name/VERSION.txt)"
+
     - name: Restore dependencies
       run: dotnet restore src/$folder_name/$project_name/$project_name.csproj
 
@@ -39,7 +43,7 @@ jobs:
       run: dotnet build src/$folder_name/$project_name/$project_name.csproj --no-restore
 
     - name: Pack
-      run: dotnet pack src/$folder_name/$project_name/$project_name.csproj -p:PackageVersion=1.0.0
+      run: dotnet pack src/$folder_name/$project_name/$project_name.csproj -p:PackageVersion=1.0.1
 
     - name: Publish
       if: startsWith(github.ref, 'refs/heads/main')

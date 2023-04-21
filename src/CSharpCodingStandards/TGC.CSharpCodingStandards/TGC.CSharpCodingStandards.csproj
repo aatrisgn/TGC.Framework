@@ -8,9 +8,21 @@
 	<Version>1.0.0</Version>
 	<AssemblyVersion>1.0.0.0</AssemblyVersion>
 	<FileVersion>1.0.0.0</FileVersion>
+    <Description>Coding standards for C#</Description>
+    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
+    <Summary>Coding standards used in TGC.Framework</Summary>
+	<Authors>Asger Thyregod</Authors>
+    <Company>Thyregod Consulting</Company>
+    <Product>TGC.CSharpCodingStandards</Product>
+    <Description>Json.NET is a popular high-performance JSON framework for .NET</Description>
+    <Copyright>Copyright © James Newton-King 2008</Copyright>
+    <Summary>Json.NET is a popular high-performance JSON framework for .NET</Summary>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   
   <ItemGroup>
+	<None Include="README.md" Pack="true" PackagePath="\"/>
     <Content Include=".editorconfig" Pack="true" PackagePath="content\Rules\">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
