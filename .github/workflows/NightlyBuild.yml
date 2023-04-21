@@ -5,6 +5,15 @@ on:
   - cron: '0 5 * * *'
   # configure manual trigger
   workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+    - '.github/workflows/TGC.NightlyBuild.yml'
+    - 'src/**'
+  pull_request:
+    branches: ["main"]
+    paths:
+    - '.github/workflows/TGC.NightlyBuild.yml'
 
 jobs:
   deploy:
@@ -26,13 +35,13 @@ jobs:
         dotnet-version: 6.0.x    
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/**/*.csproj
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build src/**/*.csproj --no-restore
 
     - name: Test
-      run: dotnet test --no-restore
+      run: dotnet test src/**/*.csproj --no-restore
 
     - name: Pack
-      run: dotnet pack
+      run: dotnet pack src/**/*.csproj
