@@ -35,10 +35,10 @@ jobs:
       id: getversion
       run: echo "version=$(cat src/$folder_name/VERSION.txt)" >> $GITHUB_OUTPUT
 
-    - name: Build
+    - name: Set Assembly Version
       shell: pwsh
       run: |
-        ..\scripts\build.ps1 -RootPath src/$folder_name/$project_name -AssemblyVersion ${{ steps.getversion.outputs.version }}
+        ..\scripts\SetAssemblyVersion.ps1 -RootPath src/$folder_name/$project_name -AssemblyVersion ${{ steps.getversion.outputs.version }}
 
     - name: Restore dependencies
       run: dotnet restore src/$folder_name/$project_name/$project_name.csproj
