@@ -1,4 +1,4 @@
-name: Build TGC.CodingStandards
+name: Build TGC.EFCoreRepositories
 
 on:
   push:
