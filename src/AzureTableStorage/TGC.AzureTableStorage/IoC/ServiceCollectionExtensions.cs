@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
 						: $"{Environment.GetEnvironmentVariable("HOME")}/site/wwwroot"); // azure_root
 
 		var builder = new ConfigurationBuilder()
-				.SetBasePath(applicationRootPath)
+				.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
 				.AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true)
 				.AddEnvironmentVariables();
 
