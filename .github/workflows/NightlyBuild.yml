@@ -16,6 +16,15 @@ on:
     - '.github/workflows/NightlyBuild.yml'
 
 jobs:
+  example_matrix:
+    strategy:
+      matrix: 
+        csprojects: 
+          [
+            src/AzureTableStorage/TGC.AzureTableStorage/TGC.AzureTableStorage,
+            src/CSharpCodingStandards/TGC.CSharpCodingStandards/TGC.CSharpCodingStandards,
+            src/EFCoreRepositories/TGC.EFCoreRepositories/TGC.EFCoreRepositories
+          ]
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -35,13 +44,13 @@ jobs:
         dotnet-version: 6.0.x    
 
     - name: Restore dependencies
-      run: dotnet restore src/**/**/**.csproj
+      run: dotnet restore ${{ matrix.csprojects }}.csproj
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ${{ matrix.csprojects }}.csproj --no-restore
 
     - name: Test
-      run: dotnet test --no-restore
+      run: dotnet test ${{ matrix.csprojects }}.Tests.csproj --no-restore
 
     - name: Pack
-      run: dotnet pack
+      run: dotnet pack ${{ matrix.csprojects }}.Tests.csproj
