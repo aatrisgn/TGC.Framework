@@ -20,7 +20,7 @@ $revisionDate = "$($revisionYear)$($revisionDay)"
 Write-Host "Searching for .csproj files in $directoryToSearch"
 
 # Find all .csproj files in the specified directory and its subdirectories
-$csprojFiles = Get-ChildItem -Path $directoryToSearch -Filter *.csproj -Recurse
+$csprojFiles = Get-ChildItem -Path $directoryToSearch -Filter *.csproj -Recurse | Where-Object { $_ -notcontains 'Tests' }
 
 # Loop through each .csproj file and replace the version number
 foreach ($csprojFile in $csprojFiles) {
