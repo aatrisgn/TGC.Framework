@@ -52,7 +52,7 @@ jobs:
       run: dotnet restore src/${{ matrix.csprojects }}/TGC.${{ matrix.csprojects }}/TGC.${{ matrix.csprojects }}.csproj
 
     - name: Build
-      run: dotnet build src/${{ matrix.csprojects }}/TGC.${{ matrix.csprojects }}.Tests/TGC.${{ matrix.csprojects }}.Tests.csproj --no-restore
+      run: dotnet build src/${{ matrix.csprojects }}/TGC.${{ matrix.csprojects }}/TGC.${{ matrix.csprojects }}.csproj --no-restore
 
     - name: Test
       run: dotnet test ${{ matrix.csprojects }}.Tests.csproj
