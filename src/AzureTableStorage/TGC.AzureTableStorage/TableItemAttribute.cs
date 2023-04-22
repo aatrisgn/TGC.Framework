@@ -4,7 +4,7 @@
 public class TableItemAttribute : Attribute
 {
 	public string TableName { get; set; }
-	public string PartitionKey { get; set; }
+	public string? PartitionKey { get; set; }
 
 	public TableItemAttribute(string tableName)
 	{

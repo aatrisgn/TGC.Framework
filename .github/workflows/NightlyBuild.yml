@@ -16,7 +16,8 @@ on:
     - '.github/workflows/NightlyBuild.yml'
 
 jobs:
-  example_matrix:
+  project_matrix:
+    runs-on: ubuntu-latest
     strategy:
       matrix: 
         csprojects: 
@@ -24,9 +25,7 @@ jobs:
             src/AzureTableStorage/TGC.AzureTableStorage/TGC.AzureTableStorage,
             src/CSharpCodingStandards/TGC.CSharpCodingStandards/TGC.CSharpCodingStandards,
             src/EFCoreRepositories/TGC.EFCoreRepositories/TGC.EFCoreRepositories
-          ]
-  deploy:
-    runs-on: ubuntu-latest
+          ]    
     steps:
     # We need this because GitHub needs to clone the branch to pipeline
     - uses: actions/checkout@v3
@@ -53,4 +52,4 @@ jobs:
       run: dotnet test ${{ matrix.csprojects }}.Tests.csproj --no-restore
 
     - name: Pack
-      run: dotnet pack ${{ matrix.csprojects }}.Tests.csproj
+      run: dotnet pack ${{ matrix.csprojects }}.csproj

@@ -1,6 +1,6 @@
-﻿using Azure;
+﻿using System.Linq.Expressions;
+using Azure;
 using Azure.Data.Tables;
-using System.Linq.Expressions;
 
 namespace TGC.AzureTableStorage;
 
@@ -15,11 +15,6 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 	public AzureTableStorageRepository(ITableStorageContext tableStorageContext)
 	{
 		_tableStorageContext = tableStorageContext;
-		InitializeRepository();
-	}
-
-	private void InitializeRepository()
-	{
 		var repositoryItemType = typeof(T);
 		var customAttribute = (TableItemAttribute)repositoryItemType.GetCustomAttributes(typeof(TableItemAttribute), false).First();
 
@@ -35,12 +30,12 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 		return await tableClient.AddEntityAsync(tableEntity);
 	}
 
-	public AsyncPageable<T> QueryAsync(Expression<Func<T, bool>> filter, int? maxPerPage = default, IEnumerable<string> select = default, CancellationToken cancellationToken = default)
+	public AsyncPageable<T> QueryAsync(Expression<Func<T, bool>> filter, int? maxPerPage = default, IEnumerable<string>? select = default, CancellationToken cancellationToken = default)
 	{
 		return tableClient.QueryAsync(filter, maxPerPage, select, cancellationToken);
 	}
 
-	public Pageable<T> Query(Expression<Func<T, bool>> filter, int? maxPerPage = default, IEnumerable<string> select = default, CancellationToken cancellationToken = default)
+	public Pageable<T> Query(Expression<Func<T, bool>> filter, int? maxPerPage = default, IEnumerable<string>? select = default, CancellationToken cancellationToken = default)
 	{
 		return tableClient.Query(filter, maxPerPage, select, cancellationToken);
 	}

@@ -2,5 +2,5 @@
 
 public interface IStorageConfiguration
 {
-    string AccountConnectionString { get; set; }
+	string? AccountConnectionString { get; set; }
 }

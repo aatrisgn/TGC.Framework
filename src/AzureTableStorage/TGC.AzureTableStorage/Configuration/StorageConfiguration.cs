@@ -2,5 +2,5 @@
 
 internal class StorageConfiguration : IStorageConfiguration
 {
-    public string AccountConnectionString { get; set; }
+	public string? AccountConnectionString { get; set; }
 }
