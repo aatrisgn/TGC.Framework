@@ -22,12 +22,6 @@ jobs:
       matrix: 
         csprojects: 
           [
-            # {folderPath: "AzureTableStorage", project: "TGC.AzureTableStorage"},
-            # {folderPath: "CSharpCodingStandards", project: "TGC.CSharpCodingStandards"},
-            # {folderPath: "AzureTableStorage", project: "TGC.AzureTableStorage"},
-            # src/AzureTableStorage/TGC.AzureTableStorage/TGC.AzureTableStorage,
-            # src/CSharpCodingStandards/TGC.CSharpCodingStandards/TGC.CSharpCodingStandards,
-            # src/EFCoreRepositories/TGC.EFCoreRepositories/TGC.EFCoreRepositories
             AzureTableStorage,
             CSharpCodingStandards,
             EFCoreRepositories

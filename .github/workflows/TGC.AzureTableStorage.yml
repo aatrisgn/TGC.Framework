@@ -2,15 +2,22 @@ name: Build TGC.AzureTableStorage
 
 on:
   push:
+    env:
+        publish_to_nuget: true
     branches: ["main"]
     paths:
     - '.github/workflows/TGC.AzureTableStorage.yml'
     - 'src/AzureTableStorage/**'
   pull_request:
+    env:
+      publish_to_nuget: false
     branches: ["main"]
     paths:
     - '.github/workflows/TGC.AzureTableStorage.yml'
     - 'src/AzureTableStorage/**'
+  workflow_dispatch:
+    env:
+      publish_to_nuget: false
 
 jobs:
   build_job:
@@ -50,6 +57,6 @@ jobs:
       run: dotnet pack src/$folder_name/$project_name/$project_name.csproj -p:PackageVersion=${{ steps.getversion.outputs.version }}
 
     - name: Publish
-      if: startsWith(github.ref, 'refs/heads/main')
+      if: startsWith(github.ref, 'refs/heads/main') || $publish_to_nuget == true
       run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGETKEY }}
 
