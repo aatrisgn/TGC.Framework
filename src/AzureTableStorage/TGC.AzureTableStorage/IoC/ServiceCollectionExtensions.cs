@@ -15,6 +15,13 @@ public static class ServiceCollectionExtensions
 						? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
 						: $"{Environment.GetEnvironmentVariable("HOME")}/site/wwwroot"); // azure_root
 
+		var builder = new ConfigurationBuilder()
+				.SetBasePath(applicationRootPath)
+				.AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true)
+				.AddEnvironmentVariables();
+
+		services.AddSingleton((IConfiguration)builder.Build());
+
 		services.AddOptions<StorageConfiguration>().Configure<IConfiguration>((settings, configuration) =>
 		{
 			configuration.GetSection(nameof(StorageConfiguration)).Bind(settings);
