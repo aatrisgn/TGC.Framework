@@ -16,10 +16,21 @@ on:
     - '.github/workflows/TGC.AzureTableStorage.yml'
     - 'src/AzureTableStorage/**'
   workflow_dispatch:
-    env:
-      publish_to_nuget: false
+    inputs:
+      publish_to_nuget:
+        type: choice
+        description: Push package to NuGet?
+        options: 
+        - yes
+        - no
 
 jobs:
+  # Consider steps later
+  # setup:
+  # build:
+  # test:
+  # publish:
+
   build_job:
     runs-on: ubuntu-latest
 
@@ -58,6 +69,6 @@ jobs:
 
     - name: Publish
       if: | 
-        startsWith(github.ref, 'refs/heads/main') || $publish_to_nuget == true
+        startsWith(github.ref, 'refs/heads/main') || ${{ github.event.inputs.message }} == yes
       run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGETKEY }}
 
