@@ -64,6 +64,6 @@ jobs:
 
     - name: Publish
       if: | 
-        startsWith(github.ref, 'refs/heads/main') && ${{ env.publish_to_nuget }} == yes
+        startsWith(github.ref, 'refs/heads/main') && ${{ env.publish_to_nuget }}
       run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGETKEY }}
 
