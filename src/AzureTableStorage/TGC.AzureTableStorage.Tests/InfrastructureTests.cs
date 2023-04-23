@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using TGC.AzureTableStorage.Configuration;
 using TGC.AzureTableStorage.IoC;
 
@@ -30,7 +29,7 @@ public class InfrastructureTests
 	[Test]
 	public void GIVEN_ConfiguredIoC_THEN_StorageOptionsIsAvailable()
 	{
-		var configurationInterface = _serviceProvider.GetService<IOptions<IStorageConfiguration>>();
+		var configurationInterface = _serviceProvider.GetService<IStorageConfiguration>();
 		configurationInterface.Should().NotBeNull();
 	}
 

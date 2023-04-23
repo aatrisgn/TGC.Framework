@@ -24,7 +24,8 @@ jobs:
           [
             AzureTableStorage,
             CSharpCodingStandards,
-            EFCoreRepositories
+            EFCoreRepositories,
+            Configuration
           ]    
     steps:
     # We need this because GitHub needs to clone the branch to pipeline

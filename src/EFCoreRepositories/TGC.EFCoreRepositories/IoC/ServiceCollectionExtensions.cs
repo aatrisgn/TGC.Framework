@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TGC.Configuration;
+using TGC.Configuration.IoC;
 using TGC.EFCoreRepositories.Configuration;
 
 namespace TGC.EFCoreRepositories.IoC;
@@ -10,29 +11,18 @@ public static class ServiceCollectionExtensions
 {
 	public static IServiceCollection AddEFCoreRepositories(this IServiceCollection serviceCollection)
 	{
-		var applicationRootPath = Environment.GetEnvironmentVariable("AzureWebJobsScriptRoot")  // local_root
-					?? (Environment.GetEnvironmentVariable("HOME") == null
-						? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-						: $"{Environment.GetEnvironmentVariable("HOME")}/site/wwwroot"); // azure_root
+		serviceCollection.AddAppSettingsAbstraction("appsettings.json");
 
-		IConfiguration config = new ConfigurationBuilder()
-			.AddJsonFile(applicationRootPath + "/appsettings.json")
-			.AddEnvironmentVariables()
-			.Build();
-
-		serviceCollection.AddOptions<EFCoreConfiguration>().Configure<IConfiguration>((settings, configuration) =>
-		{
-			configuration.GetSection(nameof(EFCoreConfiguration)).Bind(settings);
-		});
-
-		var settings = config.GetRequiredSection(nameof(EFCoreConfiguration)).Get<EFCoreConfiguration>();
+		var settings = StaticAppSettings.AppSettings;
 
 		if (settings != null)
 		{
+			var typedSettings = settings.GetTyped<EFCoreConfiguration>();
+			serviceCollection.AddSingleton<IEFCoreConfiguration>(typedSettings);
 			serviceCollection.AddDbContext<EFCoreContext>(
 			options =>
 			{
-				options.UseSqlServer(settings.Connectionstring, b => b.MigrationsAssembly(settings.MigrationAssembly));
+				options.UseSqlServer(typedSettings.Connectionstring, b => b.MigrationsAssembly(typedSettings.MigrationAssembly));
 			});
 		}
 

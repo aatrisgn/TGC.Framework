@@ -1,8 +1,8 @@
-﻿using System.Reflection;
-using Azure.Data.Tables;
-using Microsoft.Extensions.Configuration;
+﻿using Azure.Data.Tables;
 using Microsoft.Extensions.DependencyInjection;
 using TGC.AzureTableStorage.Configuration;
+using TGC.Configuration;
+using TGC.Configuration.IoC;
 
 namespace TGC.AzureTableStorage.IoC;
 
@@ -10,24 +10,15 @@ public static class ServiceCollectionExtensions
 {
 	public static IServiceCollection AddAzureTableStorage(this IServiceCollection services)
 	{
-		var applicationRootPath = Environment.GetEnvironmentVariable("AzureWebJobsScriptRoot")  // local_root
-					?? (Environment.GetEnvironmentVariable("HOME") == null
-						? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
-						: $"{Environment.GetEnvironmentVariable("HOME")}/site/wwwroot"); // azure_root
+		services.AddAppSettingsAbstraction("appsettings.json");
 
-		var builder = new ConfigurationBuilder()
-				.SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-				.AddJsonFile($"appsettings.json", optional: false, reloadOnChange: true)
-				.AddEnvironmentVariables();
+		var settings = StaticAppSettings.AppSettings;
 
-		services.AddSingleton((IConfiguration)builder.Build());
-
-		services.AddOptions<StorageConfiguration>().Configure<IConfiguration>((settings, configuration) =>
+		if (settings != null)
 		{
-			configuration.GetSection(nameof(StorageConfiguration)).Bind(settings);
-		});
-
-		services.AddSingleton<ITableStorageContext, TableStorageContext>();
+			services.AddSingleton<IStorageConfiguration>(settings.GetTyped<StorageConfiguration>());
+			services.AddSingleton<ITableStorageContext, TableStorageContext>();
+		}
 
 		return services;
 	}

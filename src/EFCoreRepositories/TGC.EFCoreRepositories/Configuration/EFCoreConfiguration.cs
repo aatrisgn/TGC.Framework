@@ -3,7 +3,7 @@
 /// <summary>
 /// Class used for binding configuration in appsettings.json to typed configuration
 /// </summary>
-public class EFCoreConfiguration
+public class EFCoreConfiguration : IEFCoreConfiguration
 {
 	/// <summary>
 	/// Property which contains connectionstring for DBContext
