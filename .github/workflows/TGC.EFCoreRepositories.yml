@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      folder_name: CSharpCodingStandards
-      project_name: TGC.CSharpCodingStandards
+      folder_name: EFCoreRepositories
+      project_name: TGC.EFCoreRepositories
 
     steps:
     - uses: actions/checkout@v3
