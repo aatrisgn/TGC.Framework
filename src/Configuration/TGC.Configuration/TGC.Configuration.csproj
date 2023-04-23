@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<Version>1.0.0</Version>
+	<AssemblyVersion>1.0.0.0</AssemblyVersion>
+	<FileVersion>1.0.0.0</FileVersion>
+	<Description>Provides a static and injected service for reading configuration values</Description>
+    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
+    <Summary>Provides a static and injected service to ease the setup of reading AppSettings or other configuration files.</Summary>
+	<Authors>Asger Thyregod</Authors>
+    <Company>Thyregod Consulting</Company>
+    <Product>TGC.Configuration</Product>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<None Include="README.md" Pack="true" PackagePath="\"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="TGC.CSharpCodingStandards" Version="1.0.3" />
+  </ItemGroup>
+
+</Project>
