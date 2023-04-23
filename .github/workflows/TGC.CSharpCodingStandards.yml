@@ -2,22 +2,16 @@ name: Build TGC.CodingStandards
 
 on:
   push:
-    env:
-      publish_to_nuget: true
     branches: ["main"]
     paths:
     - '.github/workflows/TGC.CSharpCodingStandards.yml'
     - 'src/CSharpCodingStandards/**'
   pull_request:
-    env:
-        publish_to_nuget: false
     branches: ["main"]
     paths:
     - '.github/workflows/TGC.CSharpCodingStandards.yml'
     - 'src/CSharpCodingStandards/**'
   workflow_dispatch:
-    env:
-      publish_to_nuget: false
 
 jobs:
   build_job:
@@ -56,5 +50,5 @@ jobs:
       run: dotnet pack src/$folder_name/$project_name/$project_name.csproj -p:PackageVersion=${{ steps.getversion.outputs.version }}
 
     - name: Publish
-      if: ${{ startsWith(github.ref, 'refs/heads/main') && env.publish_to_nuget }} 
+      if: ${{ startsWith(github.ref, 'refs/heads/main') && github.event_name == 'push' }}
       run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGETKEY }}

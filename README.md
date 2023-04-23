@@ -10,6 +10,7 @@ Build status:
 *Builds all projects and runs all tests nightly on main*
 
 [![Build TGC.AzureTableStorage](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.AzureTableStorage.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.AzureTableStorage.yml)
+[![TGC.AzureTableStorage on fuget.org](https://www.fuget.org/packages/TGC.AzureTableStorage/badge.svg)](https://www.fuget.org/packages/TGC.AzureTableStorage)
 [TGC.AzureTableStorage Documentation](https://github.com/aatrisgn/TGC.Framework/blob/main/src/AzureTableStorage/TGC.AzureTableStorage/README.md).
 
 [![Build TGC.CodingStandards](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.CSharpCodingStandards.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.CSharpCodingStandards.yml)
