@@ -19,14 +19,8 @@ jobs:
   project_matrix:
     runs-on: ubuntu-latest
     strategy:
-      matrix: 
-        csprojects: 
-          [
-            AzureTableStorage,
-            CSharpCodingStandards,
-            EFCoreRepositories,
-            Configuration
-          ]    
+      matrix:
+        csprojects: [AzureTableStorage, CSharpCodingStandards, EFCoreRepositories, HealthChecks, WebApiBuilder, Configuration]
     steps:
     # We need this because GitHub needs to clone the branch to pipeline
     - uses: actions/checkout@v3
@@ -41,7 +35,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x    
+        dotnet-version: 6.0.x
 
     - name: Restore dependencies
       run: dotnet restore src/${{ matrix.csprojects }}/TGC.${{ matrix.csprojects }}/TGC.${{ matrix.csprojects }}.csproj

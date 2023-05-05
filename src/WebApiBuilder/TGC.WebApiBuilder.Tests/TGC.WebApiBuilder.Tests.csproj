@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TGC.HealthChecks\TGC.HealthChecks.csproj" />
+    <ProjectReference Include="..\TGC.WebApiBuilder\TGC.WebApiBuilder.csproj" />
   </ItemGroup>
 
 </Project>
