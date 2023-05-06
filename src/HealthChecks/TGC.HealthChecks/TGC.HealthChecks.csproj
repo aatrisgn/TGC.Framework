@@ -4,6 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Description>Abstraction for .Net healthchecks for .Net web APIs</Description>
+    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
+    <Summary>Abstraction for easier adding multiple healthchecks to a .Net Web API</Summary>
+    <Authors>Asger Thyregod</Authors>
+    <Company>Thyregod Consulting</Company>
+    <Product>TGC.HealthChecks</Product>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

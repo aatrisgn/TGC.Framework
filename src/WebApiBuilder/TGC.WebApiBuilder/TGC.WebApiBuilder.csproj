@@ -4,6 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Description>Abstraction for .Net web API for utilization of TGC.Framework</Description>
+    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
+    <Summary>Extension for .Net WebApplication builder for dynamic injection and easier utilization of TGC.Framework.</Summary>
+    <Authors>Asger Thyregod</Authors>
+    <Company>Thyregod Consulting</Company>
+    <Product>TGC.WebApiBuilder</Product>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
