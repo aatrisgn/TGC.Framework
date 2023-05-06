@@ -20,3 +20,7 @@ Build status:
 [![Build TGC.EFCoreRepositories](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.EFCoreRepositories.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.EFCoreRepositories.yml)
 [![TGC.EFCoreRepositories on fuget.org](https://www.fuget.org/packages/TGC.EFCoreRepositories/badge.svg)](https://www.fuget.org/packages/TGC.EFCoreRepositories)
 [TGC.EFCoreRepositories Documentation](https://github.com/aatrisgn/TGC.Framework/blob/main/src/EFCoreRepositories/TGC.EFCoreRepositories/README.md).
+
+[![Build TGC.HealthChecks](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.HealthChecks.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.HealthChecks.yml)
+
+[![Build TGC.WebApiBuilder](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.WebApiBuilder.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.WebApiBuilder.yml)
