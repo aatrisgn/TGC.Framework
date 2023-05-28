@@ -58,3 +58,9 @@ First alpha-release
 
 ### 0.1.0
 Upgraded to .Net 7 and updated readme
+
+### 0.1.1
+Fixed failing unit tests
+
+### 0.1.2
+Added another way of configuring storage context with connectionstring directly

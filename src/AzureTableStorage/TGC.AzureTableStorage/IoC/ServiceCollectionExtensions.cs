@@ -23,6 +23,19 @@ public static class ServiceCollectionExtensions
 		return services;
 	}
 
+	public static IServiceCollection AddAzureTableStorage(this IServiceCollection services, string connectionString)
+	{
+		var settings = new StorageConfiguration() { AccountConnectionString = connectionString };
+
+		if (settings != null)
+		{
+			services.AddSingleton<IStorageConfiguration>(settings);
+			services.AddSingleton<ITableStorageContext, TableStorageContext>();
+		}
+
+		return services;
+	}
+
 	public static IServiceCollection AddStorageRepository<T>(this IServiceCollection services) where T : class, ITableEntity, new()
 	{
 		services.AddScoped<IAzureTableStorageRepository<T>, AzureTableStorageRepository<T>>();
