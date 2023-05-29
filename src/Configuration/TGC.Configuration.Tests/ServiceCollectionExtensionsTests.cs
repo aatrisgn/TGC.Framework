@@ -1,5 +1,4 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using TGC.Configuration.IoC;
 using TGC.Configuration.Tests.TestModels;
