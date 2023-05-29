@@ -71,3 +71,6 @@ Added another way of configuring storage context with connectionstring directly
 
 ### 0.1.3
 Enhanced unit tests and elobrated Readme.md
+
+### 0.1.4
+Fixed bug with not defining RowKey
