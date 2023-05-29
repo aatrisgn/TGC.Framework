@@ -26,12 +26,12 @@ charset = utf-8-bom
 dotnet_sort_system_directives_first = true
 # IDE0005: Using directive is unnecessary.
 dotnet_diagnostic.IDE0005.severity = error
-dotnet_diagnostic.IDE0055.severity = error
 
 # Linespace
 dotnet_diagnostic.RCS1036.severity = error
 dotnet_diagnostic.RCS1037.severity = error
 dotnet_diagnostic.RCS1142.severity = error
+
 
 # this. preferences
 dotnet_style_qualification_for_field = false:silent
@@ -144,3 +144,4 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
+dotnet_diagnostic.IDE0055.severity = error

@@ -55,22 +55,27 @@ Now, you can simply use the interface IAzureTableStorageRepository with any of y
 		}
 	}
 
-## Patch notes
+## Changelog
 
-### 0.0.3
-First alpha-release
+Patch notes ordered by newest change
 
-### 0.1.0
-Upgraded to .Net 7 and updated readme
+### 0.1.5
+Updated versions of TGC.Configuration and TGC.CodingStandards.
 
-### 0.1.1
-Fixed failing unit tests
-
-### 0.1.2
-Added another way of configuring storage context with connectionstring directly
+### 0.1.4
+Fixed bug with not defining RowKey
 
 ### 0.1.3
 Enhanced unit tests and elobrated Readme.md
 
-### 0.1.4
-Fixed bug with not defining RowKey
+### 0.1.2
+Added another way of configuring storage context with connectionstring directly
+
+### 0.1.1
+Fixed failing unit tests
+
+### 0.1.0
+Upgraded to .Net 7 and updated readme
+
+### 0.0.3
+First alpha-release

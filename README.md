@@ -1,9 +1,8 @@
 # TGC.Framework
 
-Currently referring package from private Nuget feed with coding standards, hence it won't work.
+This is a personal project where I create NuGet packages for the software I use the most often. It is designed by the principles and methodologies I prefer, but I tried making it as generic as possible. I am always open for PR's if you find any bugs or things missing.
 
-On my first todo!
-
+## Pipeline status
 Build status:
 
 [![Nightly build main](https://github.com/aatrisgn/TGC.Framework/actions/workflows/NightlyBuild.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/NightlyBuild.yml)
@@ -24,3 +23,32 @@ Build status:
 [![Build TGC.HealthChecks](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.HealthChecks.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.HealthChecks.yml)
 
 [![Build TGC.WebApiBuilder](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.WebApiBuilder.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.WebApiBuilder.yml)
+
+## Roadmap
+
+### Technical roadmap
+
+### Abstracting away IoC specification
+At the moment, most packages needs to be manually added to the service collection, which is fine. However, I plan on developing automatic injection of referenced packages if a specific WebAPI builder is used. This would provide the user with an even easier integration of different functionality which would be wired under the hood.
+
+### Github action templates
+I've recently started looking into GitHub actions, bicep and deployments hereof. I expect to try and make the steps used in my pipelines more generalizable and reusable.
+
+This also involves making my current build pipelines more generic, since there is a lot of ctrl-c, ctrl-v.
+
+### Redis
+I would like to make an easy integration for Redis (Even though Microsoft has already made it quite easy.). I've yet to look into it, but it is on the "to-do".
+
+### SignalR
+It's not something I've looked much into, but I would like to do so even further. Therefore, I would like to make an abstraction for it.
+
+
+### Blob storage
+Same as for some of the other services. At the moment I am only working on an Azure Table abstraction (which works), but I would like to make an easy integration for using Azure Blob Storage as an easy file service.
+
+### Authentication and Authorization - JWT, Azure AD and Azure B2C
+
+### General roadmap
+
+#### Allign changelog and better overview of packages and dependencies
+At the moment there is no clear governance of packages, versioning and documentation. I plan on improving this on the go. However, I do not expect it to be perfect any time soon. If you stumble upon this and find it interesting, don't hesitate reaching out.
