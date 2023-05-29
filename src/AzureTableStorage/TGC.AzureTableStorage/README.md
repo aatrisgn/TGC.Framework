@@ -18,6 +18,10 @@ In order to use the library you will need to add the following extension methods
 
 The method above takes care of reading configuration values and setting up context.
 
+**Disclaimer:** If you are using Azure Function App, the current version does not support *Microsoft.Extensions.Configuration.Abstractions* which this method is dependent on. If so, you can use:
+
+	builder.Services.AddAzureTableStorage("YourConnectionString");
+
 The library maps classes to individual tables in the Azure Storage Account. For each table you will need to define a related DTO. The definition requires adding a custom attribute and inherit from a specific class.
 
 An example looks like this:
@@ -64,3 +68,6 @@ Fixed failing unit tests
 
 ### 0.1.2
 Added another way of configuring storage context with connectionstring directly
+
+### 0.1.3
+Enhanced unit tests and elobrated Readme.md

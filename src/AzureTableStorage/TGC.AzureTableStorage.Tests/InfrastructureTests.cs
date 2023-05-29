@@ -33,6 +33,21 @@ public class InfrastructureTests
 		configurationInterface.Should().NotBeNull();
 	}
 
+	[Test]
+	public void GIVEN_ConfiguredIoC_WHEN_ConnectionStringIsDirectlyGiven_THEN_StorageOptionsIsAvailable()
+	{
+		var testConnectionStringValue = "TestValue";
+		var serviceCollection = CreateServiceCollection();
+		serviceCollection.AddAzureTableStorage(testConnectionStringValue);
+
+		var localProvider = serviceCollection.BuildServiceProvider();
+
+		var configurationInterface = localProvider.GetRequiredService<IStorageConfiguration>();
+
+		configurationInterface.Should().NotBeNull();
+		configurationInterface.AccountConnectionString.Should().Be(testConnectionStringValue);
+	}
+
 	private IServiceCollection CreateServiceCollection()
 	{
 		return new ServiceCollection();
