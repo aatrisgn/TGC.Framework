@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using TGC.Configuration.IoC;
 using TGC.Configuration.Tests.TestModels;
@@ -138,6 +139,48 @@ internal class ServiceCollectionExtensionsTests
 			var typedConfiguration = appSettings.GetTyped<SubTypeTest>("TypedTest:SubTypeTest");
 
 			typedConfiguration.StringTestProperty.Should().Be("somethingelse");
+		}
+		else
+		{
+			Assert.Fail();
+		}
+	}
+
+	[Test]
+	public void GIVEN_CustomInjectedConfiguration_WHEN_TryingToRetrieveExistingBoolValue_THEN_Success()
+	{
+		var serviceCollection = CreateServiceCollection();
+		serviceCollection.AddAppSettingsAbstraction("randomsettings.json");
+
+		var serviceProvider = serviceCollection.BuildServiceProvider();
+
+		var appSettings = serviceProvider.GetService<IAppSettings>();
+
+		if (appSettings != null)
+		{
+			var boolValue = appSettings.GetBoolen("randomsettingboolvalue");
+			boolValue.Should().BeTrue();
+		}
+		else
+		{
+			Assert.Fail();
+		}
+	}
+
+	[Test]
+	public void GIVEN_LocalSettingsInjectedConfiguration_WHEN_TryingToRetrieveExistingBoolValue_THEN_Success()
+	{
+		var serviceCollection = CreateServiceCollection();
+		serviceCollection.AddAppSettingsAbstraction();
+
+		var serviceProvider = serviceCollection.BuildServiceProvider();
+
+		var appSettings = serviceProvider.GetService<IAppSettings>();
+
+		if (appSettings != null)
+		{
+			var boolValue = appSettings.GetBoolen("localsettingsboolvalue");
+			boolValue.Should().BeTrue();
 		}
 		else
 		{
