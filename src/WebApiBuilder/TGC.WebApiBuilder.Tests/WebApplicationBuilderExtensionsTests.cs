@@ -25,7 +25,7 @@ public class WebApplicationBuilderExtensionsTests
 		var args = new string[0];
 		var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
-		var app = webApplicationBuilder.BuildWebAPI();
+		webApplicationBuilder.BuildWebAPI();
 
 		TestInstaller.HasBeenActived.Should().BeTrue();
 	}
