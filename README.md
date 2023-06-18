@@ -36,15 +36,19 @@ I've recently started looking into GitHub actions, bicep and deployments hereof.
 
 This also involves making my current build pipelines more generic, since there is a lot of ctrl-c, ctrl-v.
 
+Should also update pipelines to ignore certain file changes such as Readme, etc.
+
 ### Redis
 I would like to make an easy integration for Redis (Even though Microsoft has already made it quite easy.). I've yet to look into it, but it is on the "to-do".
 
 ### SignalR
 It's not something I've looked much into, but I would like to do so even further. Therefore, I would like to make an abstraction for it.
 
-
 ### Blob storage
 Same as for some of the other services. At the moment I am only working on an Azure Table abstraction (which works), but I would like to make an easy integration for using Azure Blob Storage as an easy file service.
+
+### Console builder
+An easy abstraction for creating a console app with all the DI and such wired up and easy to use
 
 ### Authentication and Authorization - JWT, Azure AD and Azure B2C
 
