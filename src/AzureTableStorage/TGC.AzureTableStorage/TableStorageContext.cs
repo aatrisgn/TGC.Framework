@@ -1,21 +1,18 @@
 ﻿using Azure.Data.Tables;
-using TGC.AzureTableStorage.Configuration;
 
 namespace TGC.AzureTableStorage;
 
 internal class TableStorageContext : ITableStorageContext
 {
-	private readonly TableServiceClient serviceClient;
-	private readonly IStorageConfiguration _storageConfiguration;
+	private readonly TableServiceClient _serviceClient;
 
-	public TableStorageContext(IStorageConfiguration storageConfiguration)
+	public TableStorageContext(TableServiceClient serviceClient)
 	{
-		_storageConfiguration = storageConfiguration;
-		serviceClient = new TableServiceClient(_storageConfiguration.AccountConnectionString);
+		_serviceClient = serviceClient;
 	}
 
 	public TableClient CreateClient(string tableName)
 	{
-		return serviceClient.GetTableClient(tableName);
+		return _serviceClient.GetTableClient(tableName);
 	}
 }

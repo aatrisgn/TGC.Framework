@@ -2,5 +2,7 @@
 
 public interface IStorageConfiguration
 {
-	string? AccountConnectionString { get; set; }
+	string? AccountConnectionString { get; init; }
+	string? StorageAccountUrl { get; init; }
+	bool UseManagedIdentity { get; init; }
 }

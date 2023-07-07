@@ -1,6 +1,8 @@
 ﻿namespace TGC.AzureTableStorage.Configuration;
 
-internal class StorageConfiguration : IStorageConfiguration
+public class StorageConfiguration : IStorageConfiguration
 {
-	public string? AccountConnectionString { get; set; }
+	public string? AccountConnectionString { get; init; }
+	public bool UseManagedIdentity { get; init; }
+	public string? StorageAccountUrl { get; init; }
 }
