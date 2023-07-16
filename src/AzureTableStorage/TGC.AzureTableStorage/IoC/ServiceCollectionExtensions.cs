@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
 	/// </summary>
 	/// <param name="services">Service Collection for application</param>
 	/// <returns>Updated service collection</returns>
-	[Obsolete]
+	[Obsolete("This will be removed in future versions and is no longer supported.")]
 	public static IServiceCollection AddAzureTableStorage(this IServiceCollection services)
 	{
 		services.AddAppSettingsAbstraction("appsettings.json");

@@ -35,11 +35,7 @@ An example looks like this:
 		public string Bar { get; set; }
 	}
 
-Once your DTO is defined, you will need to register a service for it. That is simply done the on your IServiceProvider as well with the following method:
-
-	builder.Services.AddStorageRepository<FooBarItem>();
-
-Now, you can simply use the interface IAzureTableStorageRepository with any of your registered DTOs and your IServiceProvider takes care of the rest:
+Now, you can simply use the interface IAzureTableStorageRepository with any of your registered DTOs. The repositories are defined as unbound generics, meaning you can easily inject it with any type which inherits from ITableEntity (via AzureTableItem). Your IServiceProvider takes care of the rest:
 
 	namespace Your.Namespace;
 
@@ -58,6 +54,9 @@ Now, you can simply use the interface IAzureTableStorageRepository with any of y
 ## Changelog
 
 Patch notes ordered by newest change
+
+### 0.2.0
+**Breaking change**. Support for Azure Managed Identity and changed configuration type for public injection.
 
 ### 0.1.5
 Updated versions of TGC.Configuration and TGC.CodingStandards.
