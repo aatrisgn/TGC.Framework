@@ -17,6 +17,9 @@ Build status:
 [![Build TGC.Configuration](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.Configuration.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.Configuration.yml)
 [TGC.Configuration Documentation](https://github.com/aatrisgn/TGC.Framework/blob/main/src/Configuration/TGC.Configuration/README.md).
 
+[![Build TGC.ConsoleBuilder](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.ConsoleBuilder.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.ConsoleBuilder.yml)
+[TGC.Configuration Documentation](https://github.com/aatrisgn/TGC.Framework/blob/main/src/ConsoleBuilder/TGC.ConsoleBuilder/README.md).
+
 [![Build TGC.EFCoreRepositories](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.EFCoreRepositories.yml/badge.svg)](https://github.com/aatrisgn/TGC.Framework/actions/workflows/TGC.EFCoreRepositories.yml)
 [TGC.EFCoreRepositories Documentation](https://github.com/aatrisgn/TGC.Framework/blob/main/src/EFCoreRepositories/TGC.EFCoreRepositories/README.md).
 
