@@ -2,6 +2,7 @@
 using Azure.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using TGC.AzureTableStorage.Configuration;
+using TGC.AzureTableStorage.Tests;
 using TGC.Configuration;
 using TGC.Configuration.IoC;
 
@@ -37,55 +38,73 @@ public static class ServiceCollectionExtensions
 	/// <returns>Updated IServiceCollection</returns>
 	public static IServiceCollection AddAzureTableStorage(this IServiceCollection services, string connectionString)
 	{
-		var settings = new StorageConfiguration() { AccountConnectionString = connectionString };
+		var settings = new StorageConfigurationBuilder() { AccountConnectionString = connectionString };
 
 		if (settings != null)
 		{
-			AddCoreServices(services, settings);
+			services.AddCoreServices(settings.ToConfiguration());
 		}
 
 		return services;
 	}
 
-	public static IServiceCollection AddAzureTableStorage(this IServiceCollection services, StorageConfiguration storageConfiguration)
+	public static IServiceCollection AddAzureTableStorage(this IServiceCollection services, StorageConfigurationBuilder storageConfigurationBuilder)
 	{
-		AddCoreServices(services, storageConfiguration);
+		services.AddCoreServices(storageConfigurationBuilder.ToConfiguration());
 
 		return services;
 	}
 
-	public static IServiceCollection AddAzureTableStorage(this IServiceCollection services, Action<StorageConfiguration> storageConfigurationAction)
+	public static IServiceCollection AddAzureTableStorage(this IServiceCollection services, Action<StorageConfigurationBuilder> storageConfigurationBuilderAction)
 	{
-		var storageConfiguration = new StorageConfiguration();
-		storageConfigurationAction.Invoke(storageConfiguration);
+		var storageConfiguration = new StorageConfigurationBuilder();
+		storageConfigurationBuilderAction.Invoke(storageConfiguration);
 
-		AddCoreServices(services, storageConfiguration);
+		services.AddCoreServices(storageConfiguration.ToConfiguration());
 
 		return services;
 	}
 
-	private static void AddCoreServices(IServiceCollection services, IStorageConfiguration storageConfiguration)
+	private static IServiceCollection AddCoreServices(this IServiceCollection services, IStorageConfiguration storageConfiguration)
 	{
 		services.AddSingleton<IStorageConfiguration>(storageConfiguration);
-		TableServiceClient tableClient;
 
-		if (storageConfiguration.UseManagedIdentity)
+		if (storageConfiguration.StubServices)
 		{
-			if (string.IsNullOrEmpty(storageConfiguration.StorageAccountUrl) == false)
-			{
-				tableClient = new TableServiceClient(new Uri(storageConfiguration.StorageAccountUrl), new DefaultAzureCredential());
-			}
-			else
-			{
-				throw new NullReferenceException($"{storageConfiguration.StorageAccountUrl} is not defined.");
-			}
+			services.AddStubbedCoreServices();
 		}
 		else
 		{
-			tableClient = new TableServiceClient(storageConfiguration.AccountConnectionString);
+			TableServiceClient tableClient;
+
+			if (storageConfiguration.UseManagedIdentity)
+			{
+				if (string.IsNullOrEmpty(storageConfiguration.StorageAccountUrl) == false)
+				{
+					tableClient = new TableServiceClient(new Uri(storageConfiguration.StorageAccountUrl), new DefaultAzureCredential());
+				}
+				else
+				{
+					throw new NullReferenceException($"{storageConfiguration.StorageAccountUrl} is not defined.");
+				}
+			}
+			else
+			{
+				tableClient = new TableServiceClient(storageConfiguration.AccountConnectionString);
+			}
+
+			services.AddSingleton<ITableStorageContext>(new TableStorageContext(tableClient));
+			services.AddScoped(typeof(IAzureTableStorageRepository<>), typeof(AzureTableStorageRepository<>));
 		}
 
-		services.AddSingleton<ITableStorageContext>(new TableStorageContext(tableClient));
-		services.AddScoped(typeof(IAzureTableStorageRepository<>), typeof(AzureTableStorageRepository<>));
+		return services;
+	}
+
+	private static IServiceCollection AddStubbedCoreServices(this IServiceCollection services)
+	{
+		services.AddSingleton<ITableStorageContext, StubbedTableStorageContext>();
+		services.AddScoped(typeof(IAzureTableStorageRepository<>), typeof(StubbedAzureStableStorageRepository<>));
+
+		return services;
 	}
 }

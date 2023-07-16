@@ -33,12 +33,15 @@ public class InfrastructureTests
 	}
 
 	[Test]
-	[Ignore("Figure out how to fix")]
 	public void GIVEN_ConfiguredIoC_WHEN_ConnectionStringIsDirectlyGiven_THEN_StorageOptionsIsAvailable()
 	{
 		var testConnectionStringValue = "TestValue";
 		var serviceCollection = CreateServiceCollection();
-		serviceCollection.AddAzureTableStorage(testConnectionStringValue);
+		serviceCollection.AddAzureTableStorage(options =>
+		{
+			options.AccountConnectionString = "TestValue";
+			options.StubServices = true;
+		});
 
 		var localProvider = serviceCollection.BuildServiceProvider();
 
