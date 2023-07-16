@@ -7,14 +7,18 @@
     <Version>1.0.0</Version>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
-    <Description>Abstraction for .Net web API for utilization of TGC.Framework</Description>
-    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
-    <Summary>Extension for .Net WebApplication builder for dynamic injection and easier utilization of TGC.Framework.</Summary>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Authors>Asger Thyregod</Authors>
     <Company>Thyregod Consulting</Company>
-    <Product>TGC.WebApiBuilder</Product>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
+    <Description>Abstraction for .Net web API for utilization of TGC.Framework</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Product>TGC.WebApiBuilder</Product>
+    <Summary>Extension for .Net WebApplication builder for dynamic injection and easier utilization of TGC.Framework. Part of TGC.Framework.</Summary>
+    <Tags>TGC.Framework</Tags>
   </PropertyGroup>
 
   <ItemGroup>

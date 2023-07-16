@@ -4,17 +4,21 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>1.0.0</Version>
-	<AssemblyVersion>1.0.0.0</AssemblyVersion>
-	<FileVersion>1.0.0.0</FileVersion>
-    <Description>Wrapper and abstraction layer on-top of EntityFrameworkCore</Description>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Asger Thyregod</Authors>
     <Copyright>Copyright © Asger Thyregod 2023</Copyright>
-    <Summary>A wrapper and abstraction layer on-top of EntityFrameworkCore with standardized repositories for generic data types.</Summary>
-	<Authors>Asger Thyregod</Authors>
     <Company>Thyregod Consulting</Company>
+    <Description>Wrapper and abstraction layer on-top of EntityFrameworkCore</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Product>TGC.EFCoreRepositories\</Product>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Summary>A wrapper and abstraction layer on-top of EntityFrameworkCore with standardized repositories for generic data types. Part of TGC.Framework.</Summary>
+    <Tags>TGC.Framework</Tags>
   </PropertyGroup>
 
   <ItemGroup>

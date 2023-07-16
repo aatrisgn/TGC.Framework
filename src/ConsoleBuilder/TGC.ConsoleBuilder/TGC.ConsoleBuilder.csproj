@@ -4,17 +4,21 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>1.0.0</Version>
-	<AssemblyVersion>1.0.0.0</AssemblyVersion>
-	<FileVersion>1.0.0.0</FileVersion>
-	<Description>Provides a wrapper  for automatically adding standard services such as DI to a console application runner.</Description>
-    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
-    <Summary>A wrapper making it easier and faster to prototype console applications with standard infrastructure.</Summary>
-	<Authors>Asger Thyregod</Authors>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Asger Thyregod</Authors>
     <Company>Thyregod Consulting</Company>
+    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
+    <Description>Provides a wrapper  for automatically adding standard services such as DI to a console application runner.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>TGC.ConsoleBuilder</Product>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Summary>A wrapper making it easier and faster to prototype console applications with standard infrastructure. Part of TGC.Framework.</Summary>
+    <Tags>TGC.Framework</Tags>
   </PropertyGroup>
 
   <ItemGroup>

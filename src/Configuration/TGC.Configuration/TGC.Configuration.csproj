@@ -4,17 +4,21 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>1.0.0</Version>
-	<AssemblyVersion>1.0.0.0</AssemblyVersion>
-	<FileVersion>1.0.0.0</FileVersion>
-	<Description>Provides a static and injected service for reading configuration values</Description>
-    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
-    <Summary>Provides a static and injected service to ease the setup of reading AppSettings or other configuration files.</Summary>
-	<Authors>Asger Thyregod</Authors>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Asger Thyregod</Authors>
     <Company>Thyregod Consulting</Company>
+    <Copyright>Copyright © Asger Thyregod 2023</Copyright>
+    <Description>Provides a static and injected service for reading configuration values</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Product>TGC.Configuration</Product>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Summary>Provides a static and injected service to ease the setup of reading AppSettings or other configuration files. Part of TGC.Framework.</Summary>
+    <Tags>TGC.Framework</Tags>
   </PropertyGroup>
 
   <ItemGroup>
