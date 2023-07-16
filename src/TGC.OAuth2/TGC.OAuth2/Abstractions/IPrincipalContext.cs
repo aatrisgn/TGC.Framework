@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace TGC.OAuth2.Abstractions;
 
@@ -24,5 +25,6 @@ public interface IPrincipalContext
 	/// </summary>
 	public IEnumerable<Claim> Claims { get; }
 
+	void SetBearerToken(IHeaderDictionary headers);
 	void SetPrincipalContext(ClaimsPrincipal? identity);
 }

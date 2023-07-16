@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-    <PackageReference Include="TGC.CSharpCodingStandards" Version="1.0.4" />
+    <Compile Remove="ClaimTransformers\**" />
+    <EmbeddedResource Remove="ClaimTransformers\**" />
+    <None Remove="ClaimTransformers\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClaimTransformers\" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="TGC.CSharpCodingStandards" Version="1.0.4" />
   </ItemGroup>
 
 </Project>

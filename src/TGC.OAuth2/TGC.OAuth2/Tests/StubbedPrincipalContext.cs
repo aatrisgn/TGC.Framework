@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using TGC.OAuth2.Abstractions;
 
 namespace TGC.OAuth2.Tests;
@@ -16,6 +17,11 @@ public class StubbedPrincipalContext : IPrincipalContext
 	}
 
 	public void SetPrincipalContext(ClaimsPrincipal? identity)
+	{
+		throw new NotImplementedException();
+	}
+
+	public void SetBearerToken(IHeaderDictionary headers)
 	{
 		throw new NotImplementedException();
 	}

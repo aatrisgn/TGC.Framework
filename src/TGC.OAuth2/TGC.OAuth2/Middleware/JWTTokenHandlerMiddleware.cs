@@ -14,7 +14,6 @@ internal class JWTTokenHandlerMiddleware : IAuthMiddleware
 	public async Task InvokeAsync(HttpContext context, IPrincipalContext principalContext)
 	{
 		principalContext.SetBearerToken(context.Request.Headers);
-		// Call the next delegate/middleware in the pipeline.
 		await _next(context);
 	}
 }
