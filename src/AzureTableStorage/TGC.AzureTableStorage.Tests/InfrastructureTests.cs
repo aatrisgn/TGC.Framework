@@ -14,7 +14,6 @@ public class InfrastructureTests
 	{
 		var serviceCollection = CreateServiceCollection();
 		serviceCollection.AddAzureTableStorage();
-		serviceCollection.AddStorageRepository<TestTableItem>();
 
 		_serviceProvider = serviceCollection.BuildServiceProvider();
 	}
@@ -38,7 +37,11 @@ public class InfrastructureTests
 	{
 		var testConnectionStringValue = "TestValue";
 		var serviceCollection = CreateServiceCollection();
-		serviceCollection.AddAzureTableStorage(testConnectionStringValue);
+		serviceCollection.AddAzureTableStorage(options =>
+		{
+			options.AccountConnectionString = "TestValue";
+			options.StubServices = true;
+		});
 
 		var localProvider = serviceCollection.BuildServiceProvider();
 
