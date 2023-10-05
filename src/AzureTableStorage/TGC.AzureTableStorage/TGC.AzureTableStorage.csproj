@@ -10,7 +10,7 @@
     <Description>A simple abstraction layer for integrating with Azure Table Storage.</Description>
     <Copyright>Copyright © Asger Thyregod 2023</Copyright>
     <Summary>A wrapper consiting of repositories which takes generic types as parameter for quickly integrating with Azure Table Storage. Part of TGC.Framework</Summary>
-	  <Authors>Asger Thyregod</Authors>
+	<Authors>Asger Thyregod</Authors>
     <Company>Thyregod Consulting</Company>
     <Product>TGC.AzureTableStorage</Product>
     <PackageReadmeFile>README.md</PackageReadmeFile>
