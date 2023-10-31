@@ -73,6 +73,9 @@ At the moment, things has been manually wired. This is not ideal. Instead, it sh
 
 ## Changelog
 
+### 1.1.3
+Added source code reference.
+
 ### 1.1.2
 Added project url and updated README.md
 
