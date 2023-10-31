@@ -29,10 +29,16 @@ foreach ($csprojFile in $csprojFiles) {
 
     Write-Host "Updating  version for $csprojFile..."
 
-    # Find the Version element and update its value
-    $xml.Project.PropertyGroup.Version = $AssemblyVersion
-    $xml.Project.PropertyGroup.AssemblyVersion = "$($AssemblyVersion).$revisionDate"
-    $xml.Project.PropertyGroup.FileVersion = "$($AssemblyVersion).$revisionDate"
+    if($xml.Project.PropertyGroup.Count -gt 1){
+        # Find the Version element and update its value
+        $xml.Project.PropertyGroup[0].Version = $AssemblyVersion
+        $xml.Project.PropertyGroup[0].AssemblyVersion = "$($AssemblyVersion).$revisionDate"
+        $xml.Project.PropertyGroup[0].FileVersion = "$($AssemblyVersion).$revisionDate"
+    } else {
+        $xml.Project.PropertyGroup.Version = $AssemblyVersion
+        $xml.Project.PropertyGroup.AssemblyVersion = "$($AssemblyVersion).$revisionDate"
+        $xml.Project.PropertyGroup.FileVersion = "$($AssemblyVersion).$revisionDate"
+    }
 
     # Save the updated XML back to the file
     $xml.Save($csprojFile.FullName)
