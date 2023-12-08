@@ -1,0 +1,9 @@
+@TGC.Core.TestAPI_HostAddress = http://localhost:5124
+
+GET {{TGC.Core.TestAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+
+
