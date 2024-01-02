@@ -22,6 +22,10 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+		
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="TGC.CSharpCodingStandards" Version="1.0.4" />
 	</ItemGroup>
