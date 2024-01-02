@@ -1,4 +1,4 @@
-name: Build TGC.AzureTableStorage
+name: Build TGC.Core
 
 on:
   push:
