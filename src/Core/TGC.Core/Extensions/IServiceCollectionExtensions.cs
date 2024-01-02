@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TGC.Core.Exceptions.Abstractions;
+using TGC.Core.Serialization;
 
 namespace TGC.Core.Exceptions.Extensions;
 public static class IServiceCollectionExtensions
@@ -20,6 +21,12 @@ public static class IServiceCollectionExtensions
 		}
 
 		services.AddExceptionHandler<ExceptionHandler>();
+		return services;
+	}
+
+	public static IServiceCollection AddCoreSerialization(this IServiceCollection services)
+	{
+		services.AddTransient<IJsonSerializer, CoreJsonSerializer>();
 		return services;
 	}
 }

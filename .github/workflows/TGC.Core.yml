@@ -1,0 +1,62 @@
+name: Build TGC.AzureTableStorage
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+    - '.github/workflows/TGC.Core.yml'
+    - 'src/Core/**'
+  pull_request:
+    branches: ["main"]
+    paths:
+    - '.github/workflows/TGC.Core.yml'
+    - 'src/Core/**'
+  workflow_dispatch:
+
+jobs:
+  # Consider steps later
+  # setup:
+  # build:
+  # test:
+  # publish:
+
+  build_job:
+    runs-on: ubuntu-latest
+
+    env:
+      folder_name: Core
+      project_name: TGC.Core
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Read VERSION file
+      id: getversion
+      run: echo "version=$(cat src/$folder_name/VERSION.txt)" >> $GITHUB_OUTPUT
+
+    - name: Set Assembly Version
+      shell: pwsh
+      run: |
+        .github/scripts/SetAssemblyVersion.ps1 -RootPath src/${{ env.folder_name }}/${{ env.project_name}} -AssemblyVersion ${{ steps.getversion.outputs.version }}
+
+    - name: Restore dependencies
+      run: dotnet restore src/$folder_name/$project_name/$project_name.csproj
+
+    - name: Build
+      run: dotnet build src/$folder_name/$project_name/$project_name.csproj --no-restore
+
+    - name: Pack
+      run: dotnet pack src/$folder_name/$project_name/$project_name.csproj -p:PackageVersion=${{ steps.getversion.outputs.version }}
+
+    - name: Publish
+      if: ${{ startsWith(github.ref, 'refs/heads/main') && github.event_name == 'push' }}
+      run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGETKEY }}
+
