@@ -4,7 +4,22 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <Version>1.0.0</Version>
+	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
+	  <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<Authors>Asger Thyregod</Authors>
+		<Company>Thyregod Consulting</Company>
+		<Copyright>Copyright © Asger Thyregod 2023</Copyright>
+		<Description>Provides core functionality which should be used by all TGC solutions</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Product>TGC.Core</Product>
+		<Summary>Provides a standard services for core functionality such as exception handling, serialization, etc. Part of TGC.Framework.</Summary>
+		<Tags>TGC.Framework</Tags>
+	</PropertyGroup>
 <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	<PackageReference Include="TGC.CSharpCodingStandards" Version="1.0.4" />
