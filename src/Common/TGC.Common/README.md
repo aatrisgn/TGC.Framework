@@ -10,5 +10,8 @@ The different areas of functionality can individually be added to the service co
 
 ## Changelog
 
+### 0.0.2
+Fixed modifier bug and introduced configurability of json serializer through IServiceCollection injection
+
 ### 0.0.1
 First version for preview of core functionality

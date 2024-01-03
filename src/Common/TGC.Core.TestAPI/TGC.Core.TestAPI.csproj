@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TGC.Core\TGC.Common.csproj" />
+    <ProjectReference Include="..\TGC.Common\TGC.Common.csproj" />
   </ItemGroup>
 
 </Project>

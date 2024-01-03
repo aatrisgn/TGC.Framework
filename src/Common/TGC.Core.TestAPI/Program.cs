@@ -1,4 +1,4 @@
-using TGC.Core.Exceptions.Extensions;
+using TGC.Common.Exceptions.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

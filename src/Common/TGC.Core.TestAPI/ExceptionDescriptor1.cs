@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TGC.Core.Exceptions.Abstractions;
+using TGC.Common.Exceptions;
 
 namespace TGC.Core.TestAPI;
 

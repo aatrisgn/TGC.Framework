@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TGC.Core.Exceptions.Abstractions;
+using TGC.Common.Exceptions;
 
-namespace TGC.Core.TestAPI;
+namespace TGC.Common.TestAPI;
 
 public class ExceptionDescriptor2 : IExceptionDescriptor
 {
