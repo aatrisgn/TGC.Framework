@@ -1,4 +1,4 @@
-﻿namespace TGC.Core.Serialization;
+﻿namespace TGC.Common.Serialization;
 
 internal interface IJsonSerializer
 {

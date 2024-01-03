@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using TGC.Core.Exceptions.Abstractions;
-using TGC.Core.Serialization;
+using TGC.Common.Serialization;
 
-namespace TGC.Core.Exceptions.Extensions;
+namespace TGC.Common.Exceptions.Extensions;
 public static class IServiceCollectionExtensions
 {
 	public static IServiceCollection AddExceptionHandling(this IServiceCollection services)

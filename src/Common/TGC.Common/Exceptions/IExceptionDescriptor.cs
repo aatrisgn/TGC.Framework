@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace TGC.Core.Exceptions.Abstractions;
+namespace TGC.Common.Exceptions;
 public interface IExceptionDescriptor
 {
 	bool AcceptsException(Exception exception);

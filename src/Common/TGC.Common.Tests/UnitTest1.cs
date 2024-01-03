@@ -1,4 +1,4 @@
-namespace TGC.Core.Tests
+namespace TGC.Common.Tests
 {
 	public class Tests
 	{

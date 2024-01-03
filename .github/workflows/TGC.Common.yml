@@ -1,15 +1,15 @@
-name: Build TGC.Core
+name: Build TGC.Common
 
 on:
   push:
     branches: ["main"]
     paths:
-    - '.github/workflows/TGC.Core.yml'
+    - '.github/workflows/TGC.Common.yml'
     - 'src/Core/**'
   pull_request:
     branches: ["main"]
     paths:
-    - '.github/workflows/TGC.Core.yml'
+    - '.github/workflows/TGC.Common.yml'
     - 'src/Core/**'
   workflow_dispatch:
 
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      folder_name: Core
-      project_name: TGC.Core
+      folder_name: Common
+      project_name: TGC.Common
 
     steps:
     - uses: actions/checkout@v3

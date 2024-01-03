@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace TGC.Core.Serialization;
+namespace TGC.Common.Serialization;
 
 public class CoreJsonSerializer : IJsonSerializer
 {

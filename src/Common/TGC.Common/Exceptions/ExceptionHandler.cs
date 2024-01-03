@@ -1,11 +1,10 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using TGC.Core.Exceptions.Abstractions;
+using Microsoft.AspNetCore.Diagnostics;
 
-namespace TGC.Core.Exceptions;
+namespace TGC.Common.Exceptions;
 internal class ExceptionHandler : IExceptionHandler
 {
 	public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
