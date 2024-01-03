@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        csprojects: [AzureTableStorage, CSharpCodingStandards, EFCoreRepositories, HealthChecks, WebApiBuilder, Configuration, ConsoleBuilder, Core]
+        csprojects: [AzureTableStorage, CSharpCodingStandards, EFCoreRepositories, HealthChecks, WebApiBuilder, Configuration, ConsoleBuilder, Common]
     steps:
     # We need this because GitHub needs to clone the branch to pipeline
     - uses: actions/checkout@v3
