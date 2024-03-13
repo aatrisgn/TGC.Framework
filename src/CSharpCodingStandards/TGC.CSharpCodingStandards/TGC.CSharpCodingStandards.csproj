@@ -28,18 +28,27 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AspNetCoreAnalyzers" Version="0.3.0" />
 		<PackageReference Include="AsyncFixer" Version="1.6.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="IDisposableAnalyzers" Version="4.0.7">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.9.28">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="ReflectionAnalyzers" Version="0.3.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
   
   <ItemGroup>
-	<None Include="README.md" Pack="true" PackagePath="\"/>
+	<None Include="README.md" Pack="true" PackagePath="\" />
     <Content Include=".editorconfig" Pack="true" PackagePath="content\Rules\">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
