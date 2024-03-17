@@ -55,6 +55,9 @@ Now, you can simply use the interface IAzureTableStorageRepository with any of y
 
 Patch notes ordered by newest change
 
+### 0.3.0
+**Breaking change**. Upgraded package and .Net version to .Net 8. Updated configuration flow for client library. Minor changes to interfaces.
+
 ### 0.2.0
 **Breaking change**. Support for Azure Managed Identity and changed configuration type for public injection.
 

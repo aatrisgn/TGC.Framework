@@ -10,7 +10,7 @@ namespace TGC.AzureTableStorage.Tests;
 /// <typeparam name="T">Type implementing ITableEntity</typeparam>
 public class StubbedAzureStableStorageRepository<T> : IAzureTableStorageRepository<T> where T : class, ITableEntity, new()
 {
-	public Task<Response> Create(T tableEntity)
+	public Task<Response> CreateAsync(T tableEntity)
 	{
 		throw new NotImplementedException();
 	}

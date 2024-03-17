@@ -24,7 +24,7 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 		tableClient.CreateIfNotExists();
 	}
 
-	public async Task<Response> Create(T tableEntity)
+	public async Task<Response> CreateAsync(T tableEntity)
 	{
 		tableEntity.PartitionKey = this.PartitionKey;
 		return await tableClient.AddEntityAsync(tableEntity);
