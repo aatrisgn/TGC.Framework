@@ -1,6 +1,4 @@
-﻿using Azure.Data.Tables;
-using Azure.Identity;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TGC.AzureTableStorage.Configuration;
 using TGC.AzureTableStorage.Tests;
 
@@ -54,25 +52,7 @@ public static class ServiceCollectionExtensions
 		}
 		else
 		{
-			TableServiceClient tableClient;
-
-			if (storageConfiguration.UseManagedIdentity)
-			{
-				if (string.IsNullOrEmpty(storageConfiguration.StorageAccountUrl) == false)
-				{
-					tableClient = new TableServiceClient(new Uri(storageConfiguration.StorageAccountUrl), new DefaultAzureCredential());
-				}
-				else
-				{
-					throw new NullReferenceException($"{storageConfiguration.StorageAccountUrl} is not defined.");
-				}
-			}
-			else
-			{
-				tableClient = new TableServiceClient(storageConfiguration.AccountConnectionString);
-			}
-
-			services.AddSingleton<ITableStorageContext>(new TableStorageContext(tableClient));
+			services.AddSingleton<ITableClientFactory, TableClientFactory>();
 			services.AddScoped(typeof(IAzureTableStorageRepository<>), typeof(AzureTableStorageRepository<>));
 		}
 
@@ -81,7 +61,6 @@ public static class ServiceCollectionExtensions
 
 	private static IServiceCollection AddStubbedCoreServices(this IServiceCollection services)
 	{
-		services.AddSingleton<ITableStorageContext, StubbedTableStorageContext>();
 		services.AddScoped(typeof(IAzureTableStorageRepository<>), typeof(StubbedAzureStableStorageRepository<>));
 
 		return services;

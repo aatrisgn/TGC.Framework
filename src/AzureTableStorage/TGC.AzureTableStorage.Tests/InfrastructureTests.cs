@@ -13,16 +13,13 @@ public class InfrastructureTests
 	public void Setup()
 	{
 		var serviceCollection = CreateServiceCollection();
-		serviceCollection.AddAzureTableStorage();
+		serviceCollection.AddAzureTableStorage(options =>
+		{
+			options.AccountConnectionString = "TestValue";
+			options.StubServices = true;
+		});
 
 		_serviceProvider = serviceCollection.BuildServiceProvider();
-	}
-
-	[Test]
-	public void GIVEN_ConfiguredIoC_THEN_ContextIsAvailable()
-	{
-		var context = _serviceProvider.GetService<ITableStorageContext>();
-		context.Should().NotBeNull();
 	}
 
 	[Test]
