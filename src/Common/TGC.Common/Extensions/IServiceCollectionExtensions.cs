@@ -8,14 +8,24 @@ public static class IServiceCollectionExtensions
 {
 	public static IServiceCollection AddExceptionHandling(this IServiceCollection services)
 	{
-		var assembly = Assembly.GetEntryAssembly();
+		Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 		var exceptionDescriptorType = typeof(IExceptionDescriptor);
 
-		var exceptionDescriptorImplementations = assembly!.GetTypes()
-			.Where(t => exceptionDescriptorType.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-			.ToList();
+		// Find types implementing the interface and are not interfaces or abstract classes
+		List<Type> implementingTypes = new List<Type>();
 
-		foreach (var implementation in exceptionDescriptorImplementations)
+		foreach (var assembly in assemblies)
+		{
+			foreach (var type in assembly.GetTypes())
+			{
+				if (exceptionDescriptorType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
+				{
+					implementingTypes.Add(type);
+				}
+			}
+		}
+
+		foreach (var implementation in implementingTypes)
 		{
 			services.AddScoped(exceptionDescriptorType, implementation);
 		}

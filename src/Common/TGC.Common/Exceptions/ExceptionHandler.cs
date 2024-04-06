@@ -16,6 +16,8 @@ internal class ExceptionHandler : IExceptionHandler
 		if (specificExceptionDescriptor != null)
 		{
 			var problemDetails = await specificExceptionDescriptor.HandleException(exception);
+			problemDetails.Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}";
+
 			await httpContext.Response.WriteAsJsonAsync(problemDetails);
 		}
 		else

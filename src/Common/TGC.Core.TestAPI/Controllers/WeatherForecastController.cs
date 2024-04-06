@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using TGC.Common.Exceptions;
+using TGC.Common.Exceptions.Http;
 
 namespace TGC.Core.TestAPI.Controllers
 {
@@ -33,13 +35,14 @@ namespace TGC.Core.TestAPI.Controllers
 		[HttpGet("exception1")]
 		public IEnumerable<WeatherForecast> Getexception1()
 		{
-			throw new KeyNotFoundException("Key was not found, lol");
+			HttpExceptionFactory.ThrowIfNull<NotFoundException>(null, "Entity could not be found");
+			return new List<WeatherForecast>();
 		}
 
 		[HttpGet("exception2")]
 		public IEnumerable<WeatherForecast> Getexception2()
 		{
-			throw new NotImplementedException("Yeet, bro.");
-		}
+            throw new NotFoundException();
+        }
 	}
 }

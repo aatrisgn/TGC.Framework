@@ -10,6 +10,9 @@ The different areas of functionality can individually be added to the service co
 
 ## Changelog
 
+### 0.1.0
+Updated inner workings of exception handling, added factory to throw exceptions and added default Http exception handling.
+
 ### 0.0.2
 Fixed modifier bug and introduced configurability of json serializer through IServiceCollection injection
 
