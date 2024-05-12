@@ -9,4 +9,5 @@ public interface ICosmosConfiguration
 	Guid ManagedIdentityId { get; set; }
 	bool UseManagedIdentity { get; set; }
 	string DatabaseName { get; set; }
+	bool CanManageInstance();
 }

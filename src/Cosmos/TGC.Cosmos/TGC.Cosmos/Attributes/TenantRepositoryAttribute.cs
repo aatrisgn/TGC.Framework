@@ -1,17 +1,17 @@
 ﻿namespace TGC.Cosmos.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]
-public sealed class IsolatedTenantRepositoryItem : Attribute
+public sealed class TenantRepositoryAttribute : Attribute
 {
 	public string CollectionName { get; }
 	public int SchemaVersion { get; }
 
-	public IsolatedTenantRepositoryItem(string collectionName)
+	public TenantRepositoryAttribute(string collectionName)
 	{
 		CollectionName = collectionName;
 	}
 
-	public IsolatedTenantRepositoryItem(string collectionName, int schemaVersion)
+	public TenantRepositoryAttribute(string collectionName, int schemaVersion)
 	{
 		CollectionName = collectionName;
 		SchemaVersion = schemaVersion;
