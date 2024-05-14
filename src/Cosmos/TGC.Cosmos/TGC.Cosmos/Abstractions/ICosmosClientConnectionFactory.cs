@@ -3,6 +3,6 @@
 namespace TGC.Cosmos.Abstractions;
 public interface ICosmosClientConnectionFactory
 {
-	Container GetContainer<T>();
+	Task<Container> GetContainerAsync<T>();
 	CosmosClient GetClient();
 }

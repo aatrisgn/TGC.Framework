@@ -3,17 +3,10 @@
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class RepositoryAttribute : Attribute
 {
-	public string CollectionName { get; }
 	public int SchemaVersion { get; }
 
-	public RepositoryAttribute(string collectionName)
+	public RepositoryAttribute(int schemaVersion)
 	{
-		CollectionName = collectionName;
-	}
-
-	public RepositoryAttribute(string collectionName, int schemaVersion)
-	{
-		CollectionName = collectionName;
 		SchemaVersion = schemaVersion;
 	}
 }

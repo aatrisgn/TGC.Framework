@@ -15,7 +15,7 @@ internal class CosmosAdapter<T> : ICosmosAdapter<T> where T : RepositoryEntity
 
 	public async Task<T> CreateAsync(T entity)
 	{
-		var container = _cosmosClientConnectionFactory.GetContainer<T>();
+		var container = await _cosmosClientConnectionFactory.GetContainerAsync<T>();
 		var result = await container.CreateItemAsync(entity);
 		return result.Resource;
 	}
@@ -27,7 +27,7 @@ internal class CosmosAdapter<T> : ICosmosAdapter<T> where T : RepositoryEntity
 
 	public async IAsyncEnumerable<T> GetAllAsStream()
 	{
-		var container = _cosmosClientConnectionFactory.GetContainer<T>();
+		var container = await _cosmosClientConnectionFactory.GetContainerAsync<T>();
 		var queryable = container.GetItemLinqQueryable<T>();
 
 		using var feed = queryable.ToFeedIterator();
@@ -49,7 +49,7 @@ internal class CosmosAdapter<T> : ICosmosAdapter<T> where T : RepositoryEntity
 
 	public async Task<IEnumerable<T>> GetAllAsync()
 	{
-		var container = _cosmosClientConnectionFactory.GetContainer<T>();
+		var container = await _cosmosClientConnectionFactory.GetContainerAsync<T>();
 
 		var q = container.GetItemLinqQueryable<T>();
 		var iterator = q.ToFeedIterator();

@@ -19,7 +19,7 @@ internal class CosmosClientConnectionFactory : ICosmosClientConnectionFactory
 		_cosmosConfiguration = cosmosConfiguration;
 	}
 
-	public Container GetContainer<T>()
+	public async Task<Container> GetContainerAsync<T>()
 	{
 		Type type = typeof(T);
 
@@ -27,7 +27,7 @@ internal class CosmosClientConnectionFactory : ICosmosClientConnectionFactory
 
 		if (container == null)
 		{
-			container = InitializeContainerAsync(type);
+			container = await InitializeContainerAsync(type);
 		}
 
 		return container;
@@ -84,19 +84,21 @@ internal class CosmosClientConnectionFactory : ICosmosClientConnectionFactory
 
 	private async Task<Container> InitializeContainerAsync(Type type)
 	{
-		var client = GetClient();
-
 		var database = await InitializeDatabaseAsync(_cosmosConfiguration.DatabaseName);
 
 		var containerName = GetContainerName(type);
 
-		lock (_containerLock)
+		if (_cosmosConfiguration.CanManageInstance())
 		{
-			if (containerRegistry.TryGetValue(type.Name, out var existingContainer))
-			{
-				return existingContainer;
-			}
+			var containerProperties = new ContainerProperties(containerName, "/id");
+			var container = await database.CreateContainerIfNotExistsAsync(containerProperties);
 
+			containerRegistry.Add(type.Name, container);
+
+			return container;
+		}
+		else
+		{
 			var container = database.GetContainer(containerName);
 
 			containerRegistry.Add(type.Name, container);
@@ -116,7 +118,7 @@ internal class CosmosClientConnectionFactory : ICosmosClientConnectionFactory
 		return GetClient().GetDatabase(databaseName);
 	}
 
-	private static string GetContainerName(Type type)
+	private string GetContainerName(Type type)
 	{
 		if (Attribute.IsDefined(type, typeof(IsolatedRepositoryAttribute)))
 		{
@@ -134,21 +136,9 @@ internal class CosmosClientConnectionFactory : ICosmosClientConnectionFactory
 				return containerAttribute.CollectionName;
 			}
 		}
-		else if (Attribute.IsDefined(type, typeof(RepositoryAttribute)))
+		else if (Attribute.IsDefined(type, typeof(RepositoryAttribute)) || Attribute.IsDefined(type, typeof(TenantRepositoryAttribute)))
 		{
-			var containerAttribute = (RepositoryAttribute?)Attribute.GetCustomAttribute(type, typeof(RepositoryAttribute));
-			if (containerAttribute != null)
-			{
-				return containerAttribute.CollectionName;
-			}
-		}
-		else if (Attribute.IsDefined(type, typeof(TenantRepositoryAttribute)))
-		{
-			var containerAttribute = (TenantRepositoryAttribute?)Attribute.GetCustomAttribute(type, typeof(TenantRepositoryAttribute));
-			if (containerAttribute != null)
-			{
-				return containerAttribute.CollectionName;
-			}
+			return _cosmosConfiguration.PrimaryContainerName;
 		}
 
 		throw new InvalidOperationException("Type has not been decorated with valid attribute for Container mapping.");
