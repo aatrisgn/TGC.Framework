@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Azure;
 using Azure.Data.Tables;
+using TGC.AzureTableStorage.Extensions;
 
 namespace TGC.AzureTableStorage;
 
@@ -37,6 +38,32 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 	{
 		var tableClient = GetClient();
 		return tableClient.QueryAsync(filter, maxPerPage, select, cancellationToken);
+	}
+
+	/// <summary>
+	/// Get all items which qualifis for the filter expression. Note: A maximum of 1.000 results are returned.
+	/// </summary>
+	/// <param name="filter">Expression to match entities for.</param>
+	/// <returns>IEnumerable containing matched entities.</returns>
+	public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter)
+	{
+		var tableClient = GetClient();
+		var asyncPageable = tableClient.QueryAsync(filter);
+
+		return await asyncPageable.AsIEnumerableAsync();
+	}
+
+	/// <summary>
+	/// Get single item matching filter. Will throw exception if 0 or more than 1 entity is located.
+	/// </summary>
+	/// <param name="filter">Expression to match entities for.</param>
+	/// <returns>IEnumerable containing matched entities.</returns>
+	public async Task<T> GetSingleAsync(Expression<Func<T, bool>> filter)
+	{
+		var tableClient = GetClient();
+		var asyncPageable = tableClient.QueryAsync(filter);
+
+		return await asyncPageable.SingleAsync();
 	}
 
 	public Pageable<T> Query(Expression<Func<T, bool>> filter, int? maxPerPage = default, IEnumerable<string>? select = default, CancellationToken cancellationToken = default)

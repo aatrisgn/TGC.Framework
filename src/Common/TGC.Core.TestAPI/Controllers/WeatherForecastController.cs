@@ -44,5 +44,11 @@ namespace TGC.Core.TestAPI.Controllers
 		{
             throw new NotFoundException();
         }
+		
+		[HttpGet("exception2")]
+		public IActionResult Getexception4()
+		{
+			return Ok("sdasdasd");
+		}
 	}
 }
