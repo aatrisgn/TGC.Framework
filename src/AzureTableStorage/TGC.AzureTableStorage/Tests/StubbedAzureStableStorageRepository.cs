@@ -24,4 +24,14 @@ public class StubbedAzureStableStorageRepository<T> : IAzureTableStorageReposito
 	{
 		throw new NotImplementedException();
 	}
+
+	public Task<T> GetSingleAsync(Expression<Func<T, bool>> filter)
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter)
+	{
+		throw new NotImplementedException();
+	}
 }
