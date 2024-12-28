@@ -58,5 +58,5 @@ jobs:
 
     - name: Publish
       if: ${{ startsWith(github.ref, 'refs/heads/main') && github.event_name == 'push' }}
-      run: dotnet nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{ secrets.NUGETKEY }}
+      run: dotnet nuget push **\*.nupkg -s 'https://api.nuget.org/v3/index.json' -api-key ${{ secrets.NUGETKEY }}
 
