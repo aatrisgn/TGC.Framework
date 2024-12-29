@@ -17,7 +17,14 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 		_tableClientFactory = tableClientFactory;
 
 		var repositoryItemType = typeof(T);
-		var customAttribute = (TableItemAttribute)repositoryItemType.GetCustomAttributes(typeof(TableItemAttribute), false).First();
+		var customAttributes = repositoryItemType.GetCustomAttributes(typeof(TableItemAttribute), false);
+
+		if (customAttributes.Length == 0)
+		{
+			throw new InvalidOperationException("No table item attribute found. Ensure TableItemAttribute has been defined on item.");
+		}
+
+		var customAttribute = (TableItemAttribute)customAttributes.First();
 
 		this.PartitionKey = string.IsNullOrEmpty(customAttribute.PartitionKey) ? customAttribute.TableName : customAttribute.PartitionKey;
 		this._tableName = customAttribute.TableName;

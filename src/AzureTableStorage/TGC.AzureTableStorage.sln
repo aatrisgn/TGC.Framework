@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGC.AzureTableStorage.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGC.AzureTableStorage.Benchmark", "TGC.AzureTableStorage.Benchmark\TGC.AzureTableStorage.Benchmark.csproj", "{5E81B60A-74F2-4523-964D-F451699E64A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGC.AzureTableStorage.IntegrationTests", "TGC.AzureTableStorage.IntegrationTests\TGC.AzureTableStorage.IntegrationTests.csproj", "{65F5B8FE-010D-4DDB-A7BC-58AF7CA53FDE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C1A610C0-836D-4FDB-A17C-B56C854EE8C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,11 +31,20 @@ Global
 		{5E81B60A-74F2-4523-964D-F451699E64A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E81B60A-74F2-4523-964D-F451699E64A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E81B60A-74F2-4523-964D-F451699E64A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65F5B8FE-010D-4DDB-A7BC-58AF7CA53FDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65F5B8FE-010D-4DDB-A7BC-58AF7CA53FDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65F5B8FE-010D-4DDB-A7BC-58AF7CA53FDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65F5B8FE-010D-4DDB-A7BC-58AF7CA53FDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3E9506F2-8142-431F-A889-A267940A9E36}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65F5B8FE-010D-4DDB-A7BC-58AF7CA53FDE} = {C1A610C0-836D-4FDB-A17C-B56C854EE8C5}
+		{5E81B60A-74F2-4523-964D-F451699E64A4} = {C1A610C0-836D-4FDB-A17C-B56C854EE8C5}
+		{224284BD-6EE9-4302-9FC5-A4C2A272F324} = {C1A610C0-836D-4FDB-A17C-B56C854EE8C5}
 	EndGlobalSection
 EndGlobal

@@ -55,6 +55,12 @@ Now, you can simply use the interface IAzureTableStorageRepository with any of y
 
 Patch notes ordered by newest change
 
+### 0.5.1
+Added integration test and fixed issue where missing attribute on entities results in bad error not clearly describing the root issue. Also, cleaned up some code.
+
+### 0.5.0
+Added new methods on interfaces for querying data. GetAllAsync and SingleAsync.
+
 ### 0.3.1
 Changed provision of TableClient to factory pattern and upgraded unit tests to .Net 8 due to .Net version mismatch.
 
