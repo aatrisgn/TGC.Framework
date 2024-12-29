@@ -52,7 +52,7 @@ public static class ServiceCollectionExtensions
 		}
 		else
 		{
-			services.AddSingleton<ITableClientFactory, TableClientFactory>();
+			services.AddSingleton<ITableClientFactory>(new TableClientFactory(storageConfiguration));
 			services.AddScoped(typeof(IAzureTableStorageRepository<>), typeof(AzureTableStorageRepository<>));
 		}
 
