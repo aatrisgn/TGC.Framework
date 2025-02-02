@@ -41,7 +41,7 @@ public class RepositoryTests
         
         singleItem.Name.Should().Be("Test value");
     }
-    
+
     [Fact]
     public async Task GIVEN_ExistingItemInStorage_THEN_ItIsPossibleToRetrieveAnEntityWithAllProperties()
     {
@@ -126,7 +126,7 @@ public class RepositoryTests
     }
 
     [TableItem("TestEntities")]
-    private class TestEntity : AzureTableItem
+    private class TestEntity : AzureTableItem, ITableEntity
     {
         public string Name { get; set; }
         public double Score { get; set; }
