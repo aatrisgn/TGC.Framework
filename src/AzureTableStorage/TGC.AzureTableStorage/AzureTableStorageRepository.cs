@@ -55,7 +55,15 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 	public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter)
 	{
 		var tableClient = GetClient();
-		var asyncPageable = tableClient.QueryAsync(filter);
+		var asyncPageable = tableClient.QueryAsync(filter, null, GetAllTPropertyNames());
+
+		return await asyncPageable.AsIEnumerableAsync();
+	}
+
+	public async Task<IEnumerable<T>> GetAllWithPropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select)
+	{
+		var tableClient = GetClient();
+		var asyncPageable = tableClient.QueryAsync(filter, null, select);
 
 		return await asyncPageable.AsIEnumerableAsync();
 	}
@@ -68,7 +76,15 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 	public async Task<T> GetSingleAsync(Expression<Func<T, bool>> filter)
 	{
 		var tableClient = GetClient();
-		var asyncPageable = tableClient.QueryAsync(filter);
+		var asyncPageable = tableClient.QueryAsync(filter, null, GetAllTPropertyNames());
+
+		return await asyncPageable.SingleAsync();
+	}
+
+	public async Task<T> GetSinglePropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select)
+	{
+		var tableClient = GetClient();
+		var asyncPageable = tableClient.QueryAsync(filter, null, select);
 
 		return await asyncPageable.SingleAsync();
 	}
@@ -82,5 +98,13 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 	private TableClient GetClient()
 	{
 		return _tableClientFactory.GetClient(_tableName);
+	}
+
+	private static List<string> GetAllTPropertyNames()
+	{
+		return typeof(T).GetProperties()
+			.Where(prop => prop.PropertyType == typeof(string))
+			.Select(prop => prop.Name)
+			.ToList();
 	}
 }

@@ -45,10 +45,13 @@ public interface IAzureTableStorageRepository<T> where T : class, ITableEntity, 
 	/// <exception cref="InvalidOperationException">Thrown if no entities or more than one entity matches the filter.</exception>
 	Task<T> GetSingleAsync(Expression<Func<T, bool>> filter);
 
+	Task<T> GetSinglePropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select);
+
 	/// <summary>
 	/// Gets all entities that match the specified filter.
 	/// </summary>
 	/// <param name="filter">The filter expression to match entities.</param>
 	/// <returns>A task that represents the asynchronous operation. The task result contains a collection of entities that match the filter.</returns>
 	Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter);
+	Task<IEnumerable<T>> GetAllWithPropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select);
 }
