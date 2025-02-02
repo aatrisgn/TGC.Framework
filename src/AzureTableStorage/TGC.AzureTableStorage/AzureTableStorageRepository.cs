@@ -102,10 +102,9 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 
 	private static List<string> GetAllTPropertyNames()
 	{
-		var some = typeof(T).GetProperties()
-			//.Where(prop => prop.PropertyType == typeof(string))
+		var propertyNames = typeof(T).GetProperties()
 			.Select(prop => prop.Name)
 			.ToList();
-		return some;
+		return propertyNames;
 	}
 }
