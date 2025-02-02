@@ -44,4 +44,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\VERSION.txt">
+      <Link>VERSION.txt</Link>
+    </Content>
+  </ItemGroup>
+
 </Project>
