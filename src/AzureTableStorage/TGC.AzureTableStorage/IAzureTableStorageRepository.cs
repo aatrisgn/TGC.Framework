@@ -45,6 +45,13 @@ public interface IAzureTableStorageRepository<T> where T : class, ITableEntity, 
 	/// <exception cref="InvalidOperationException">Thrown if no entities or more than one entity matches the filter.</exception>
 	Task<T> GetSingleAsync(Expression<Func<T, bool>> filter);
 
+	/// <summary>
+	/// Deletes the specified entity from the Azure Table storage.
+	/// </summary>
+	/// <param name="tableEntity">The entity to delete. Must contain valid PartitionKey and RowKey values.</param>
+	/// <returns>A <see cref="Guid"/> representing the RowKey of the deleted entity.</returns>
+	/// <exception cref="ArgumentNullException">Thrown if the provided <paramref name="tableEntity"/> is null.</exception>
+	/// <exception cref="FormatException">Thrown if the RowKey of the entity cannot be parsed as a <see cref="Guid"/>.</exception>
 	Task<T> GetSinglePropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select);
 
 	/// <summary>
@@ -53,5 +60,7 @@ public interface IAzureTableStorageRepository<T> where T : class, ITableEntity, 
 	/// <param name="filter">The filter expression to match entities.</param>
 	/// <returns>A task that represents the asynchronous operation. The task result contains a collection of entities that match the filter.</returns>
 	Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter);
+
+	Task<Guid> DeleteAsync(T tableEntity);
 	Task<IEnumerable<T>> GetAllWithPropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select);
 }

@@ -95,6 +95,17 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 		return tableClient.Query(filter, maxPerPage, select, cancellationToken);
 	}
 
+	public async Task<Guid> DeleteAsync(T tableEntity)
+	{
+		if (tableEntity == null)
+		{
+			throw new ArgumentNullException(nameof(tableEntity), "The table entity cannot be null.");
+		}
+		var tableClient = GetClient();
+		await tableClient.DeleteEntityAsync(tableEntity.PartitionKey, tableEntity.RowKey);
+		return Guid.Parse(tableEntity.RowKey);
+	}
+
 	private TableClient GetClient()
 	{
 		return _tableClientFactory.GetClient(_tableName);

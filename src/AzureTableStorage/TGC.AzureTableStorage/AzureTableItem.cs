@@ -9,4 +9,5 @@ public abstract class AzureTableItem : ITableEntity
 	public string? RowKey { get; set; } = Guid.NewGuid().ToString();
 	public DateTimeOffset? Timestamp { get; set; }
 	public ETag ETag { get; set; }
+	public bool IsActive { get; set; }
 }
