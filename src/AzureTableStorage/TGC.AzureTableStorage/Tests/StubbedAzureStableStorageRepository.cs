@@ -40,6 +40,11 @@ public class StubbedAzureStableStorageRepository<T> : IAzureTableStorageReposito
 		throw new NotImplementedException();
 	}
 
+	public Task<Guid> DeleteAsync(T tableEntity)
+	{
+		throw new NotImplementedException();
+	}
+
 	public Task<IEnumerable<T>> GetAllWithPropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select)
 	{
 		throw new NotImplementedException();
