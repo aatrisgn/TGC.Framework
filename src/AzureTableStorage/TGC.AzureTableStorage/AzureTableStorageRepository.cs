@@ -106,6 +106,28 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 		return Guid.Parse(tableEntity.RowKey);
 	}
 
+	public async Task<Guid> DeleteByIdAsync(Guid id)
+	{
+		var tableClient = GetClient();
+		await tableClient.DeleteEntityAsync(PartitionKey, id.ToString());
+		return id;
+	}
+
+	public async Task<bool> ExistsAsync(Expression<Func<T, bool>> filter)
+	{
+		var tableClient = GetClient();
+		var response = tableClient.QueryAsync(filter, null, GetAllTPropertyNames());
+		var locatedItems = await response.AsIEnumerableAsync();
+		return locatedItems.Any();
+	}
+
+	public async Task<bool> ExistsByIdAsync(Guid id)
+	{
+		var tableClient = GetClient();
+		var response = await tableClient.GetEntityIfExistsAsync<T>(PartitionKey, id.ToString());
+		return response.HasValue;
+	}
+
 	private TableClient GetClient()
 	{
 		return _tableClientFactory.GetClient(_tableName);

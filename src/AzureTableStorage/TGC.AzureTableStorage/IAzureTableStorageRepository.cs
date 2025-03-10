@@ -62,5 +62,8 @@ public interface IAzureTableStorageRepository<T> where T : class, ITableEntity, 
 	Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter);
 
 	Task<Guid> DeleteAsync(T tableEntity);
+	Task<Guid> DeleteByIdAsync(Guid id);
+	Task<bool> ExistsByIdAsync(Guid id);
+	Task<bool> ExistsAsync(Expression<Func<T, bool>> filter);
 	Task<IEnumerable<T>> GetAllWithPropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select);
 }

@@ -55,6 +55,9 @@ Now, you can simply use the interface IAzureTableStorageRepository with any of y
 
 Patch notes ordered by newest change
 
+### 0.7.0
+Introducing DeleteByIdAsync, ExistsAsync and ExistsByIdAsync.
+
 ### 0.5.1
 Added integration test and fixed issue where missing attribute on entities results in bad error not clearly describing the root issue. Also, cleaned up some code.
 

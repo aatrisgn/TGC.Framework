@@ -43,6 +43,97 @@ public class RepositoryTests
     }
     
     [Fact]
+    public async Task GIVEN_ExistingItem_THEN_ExistsByIdShouldReturnTrue()
+    {
+        var repository = _serviceProvider.GetService<IAzureTableStorageRepository<TestEntity>>();
+
+        if (repository is null)
+        {
+            throw new NullReferenceException("repository is null and shouldn't be null.");
+        }
+        
+        await repository.CreateAsync(new TestEntity
+        {
+            Name = "Test value"
+        });
+        
+        var newItem = await repository.GetSingleAsync(i => i.Name == "Test value");
+        
+        var locatedItem = await repository.ExistsByIdAsync(Guid.Parse(newItem.RowKey));
+        locatedItem.Should().BeTrue();
+    }
+    
+    [Fact]
+    public async Task GIVEN_ExistingItem_THEN_ExistsShouldReturnTrue()
+    {
+        var repository = _serviceProvider.GetService<IAzureTableStorageRepository<TestEntity>>();
+
+        if (repository is null)
+        {
+            throw new NullReferenceException("repository is null and shouldn't be null.");
+        }
+        
+        await repository.CreateAsync(new TestEntity
+        {
+            Name = "Test value"
+        });
+        
+        var locatedItem = await repository.ExistsAsync(i => i.Name == "Test value");
+        locatedItem.Should().BeTrue();
+    }
+    
+    [Fact]
+    public async Task GIVEN_ExistingItem_WHEN_DeletingEntity_THEN_ExistsShouldReturnFalse()
+    {
+        var repository = _serviceProvider.GetService<IAzureTableStorageRepository<TestEntity>>();
+
+        if (repository is null)
+        {
+            throw new NullReferenceException("repository is null and shouldn't be null.");
+        }
+        
+        await repository.CreateAsync(new TestEntity
+        {
+            Name = "Test value"
+        });
+        
+        var newItem = await repository.GetSingleAsync(i => i.Name == "Test value");
+        
+        await repository.DeleteByIdAsync(Guid.Parse(newItem.RowKey));
+        
+        var locatedItem = await repository.ExistsByIdAsync(Guid.Parse(newItem.RowKey));
+        locatedItem.Should().BeFalse();
+    }
+    
+    [Fact]
+    public async Task GIVEN_NonExistingItem_THEN_ExistsByIdShouldReturnTrue()
+    {
+        var repository = _serviceProvider.GetService<IAzureTableStorageRepository<TestEntity>>();
+
+        if (repository is null)
+        {
+            throw new NullReferenceException("repository is null and shouldn't be null.");
+        }
+        
+        var locatedItem = await repository.ExistsByIdAsync(Guid.NewGuid());
+        locatedItem.Should().BeFalse();
+    }
+    
+    [Fact]
+    public async Task GIVEN_NonExistingItem_THEN_ExistsShouldReturnTrue()
+    {
+        var repository = _serviceProvider.GetService<IAzureTableStorageRepository<TestEntity>>();
+
+        if (repository is null)
+        {
+            throw new NullReferenceException("repository is null and shouldn't be null.");
+        }
+        
+        var locatedItem = await repository.ExistsAsync(i => i.Name == "aqweqwdqw");
+        locatedItem.Should().BeFalse();
+    }
+    
+    [Fact]
     public async Task GIVEN_ExistingItemInStorage_THEN_ItIsPossibleToRetrieveAnEntityWithAllProperties()
     {
         var repository = _serviceProvider.GetService<IAzureTableStorageRepository<TestEntity>>();
