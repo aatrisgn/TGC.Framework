@@ -54,6 +54,8 @@ public static class ServiceCollectionExtensions
 		{
 			services.AddSingleton<ITableClientFactory>(new TableClientFactory(storageConfiguration));
 			services.AddScoped(typeof(IAzureTableStorageRepository<>), typeof(AzureTableStorageRepository<>));
+			services.AddSingleton(typeof(IAzureTableReadLock<>), typeof(AzureTableStorageRepository<>));
+			services.AddSingleton(typeof(IAzureTableWriteLock<>), typeof(AzureTableStorageRepository<>));
 		}
 
 		return services;
