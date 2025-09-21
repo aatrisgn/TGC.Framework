@@ -61,9 +61,33 @@ public interface IAzureTableStorageRepository<T> where T : class, ITableEntity, 
 	/// <returns>A task that represents the asynchronous operation. The task result contains a collection of entities that match the filter.</returns>
 	Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter);
 
+	/// <summary>
+	/// Deletes the specified table entity from the storage.
+	/// </summary>
+	/// <param name="tableEntity">The entity to delete.</param>
+	/// <returns>A task that represents the asynchronous operation. The task result contains the <see cref="Guid"/> of the deleted entity.</returns>
 	Task<Guid> DeleteAsync(T tableEntity);
-	Task<Guid> DeleteByIdAsync(Guid id);
-	Task<bool> ExistsByIdAsync(Guid id);
+
+	/// <summary>
+	/// Deletes an entity from the storage by its row key.
+	/// </summary>
+	/// <param name="rowKey">The <see cref="Guid"/> representing the row key of the entity to delete.</param>
+	/// <returns>A task that represents the asynchronous operation. The task result contains the <see cref="Guid"/> of the deleted entity.</returns>
+	Task<Guid> DeleteByIdAsync(Guid rowKey);
+
+	/// <summary>
+	/// Checks whether an entity with the specified row key exists in the storage.
+	/// </summary>
+	/// <param name="rowKey">The <see cref="Guid"/> representing the row key to check.</param>
+	/// <returns>A task that represents the asynchronous operation. The task result contains <c>true</c> if the entity exists; otherwise, <c>false</c>.</returns>
+	Task<bool> ExistsByIdAsync(Guid rowKey);
+
+	/// <summary>
+	/// Checks whether any entity in the storage matches the specified filter expression.
+	/// </summary>
+	/// <param name="filter">An expression used to filter entities.</param>
+	/// <returns>A task that represents the asynchronous operation. The task result contains <c>true</c> if a matching entity exists; otherwise, <c>false</c>.</returns>
 	Task<bool> ExistsAsync(Expression<Func<T, bool>> filter);
+
 	Task<IEnumerable<T>> GetAllWithPropertiesAsync(Expression<Func<T, bool>> filter, IEnumerable<string> select);
 }
