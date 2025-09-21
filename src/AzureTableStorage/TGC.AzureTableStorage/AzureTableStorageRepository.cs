@@ -5,7 +5,7 @@ using TGC.AzureTableStorage.Extensions;
 
 namespace TGC.AzureTableStorage;
 
-public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> where T : class, ITableEntity, new()
+internal class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> where T : class, ITableEntity, new()
 {
 	private readonly ITableClientFactory _tableClientFactory;
 	private readonly string _tableName;
@@ -106,11 +106,11 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 		return Guid.Parse(tableEntity.RowKey);
 	}
 
-	public async Task<Guid> DeleteByIdAsync(Guid id)
+	public async Task<Guid> DeleteByIdAsync(Guid rowKey)
 	{
 		var tableClient = GetClient();
-		await tableClient.DeleteEntityAsync(PartitionKey, id.ToString());
-		return id;
+		await tableClient.DeleteEntityAsync(PartitionKey, rowKey.ToString());
+		return rowKey;
 	}
 
 	public async Task<bool> ExistsAsync(Expression<Func<T, bool>> filter)
@@ -121,10 +121,10 @@ public class AzureTableStorageRepository<T> : IAzureTableStorageRepository<T> wh
 		return locatedItems.Any();
 	}
 
-	public async Task<bool> ExistsByIdAsync(Guid id)
+	public async Task<bool> ExistsByIdAsync(Guid rowKey)
 	{
 		var tableClient = GetClient();
-		var response = await tableClient.GetEntityIfExistsAsync<T>(PartitionKey, id.ToString());
+		var response = await tableClient.GetEntityIfExistsAsync<T>(PartitionKey, rowKey.ToString());
 		return response.HasValue;
 	}
 

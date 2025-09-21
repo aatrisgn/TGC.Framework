@@ -192,7 +192,7 @@ public class RepositoryTests
     }
 
     [Fact]
-    public async Task GIVEN_ExistingItemInStorage_THEN_ItIsPossibleToRetrieveAnEntityWithAllProperties()
+    public async Task GIVEN_SingeItemInRepository_THEN_ItIsReturnedWithCorrectCapitalization()
     {
         var repository = _serviceProvider.GetService<IAzureTableStorageRepository<TestEntity>>();
 
@@ -236,7 +236,7 @@ public class RepositoryTests
     }
     
     [Fact]
-    public async Task GIVEN_ExistingItemInStorage_THEN_ItIsPossibleToRetrieveAllEntitiesWithAllProperties()
+    public async Task GIVEN_ExistingItemInStorage_THEN_EnsureCorrectValuesAreReturned()
     {
         var repository = _serviceProvider.GetService<IAzureTableStorageRepository<TestEntity>>();
 

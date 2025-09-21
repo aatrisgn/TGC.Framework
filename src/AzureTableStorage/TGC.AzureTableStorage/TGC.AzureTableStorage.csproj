@@ -21,8 +21,8 @@
   <ItemGroup>
 	<None Include="README.md" Pack="true" PackagePath="\" />
     <PackageReference Include="Azure.Data.Tables" Version="12.8.3" />
-    <PackageReference Include="Azure.Identity" Version="1.10.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Azure.Identity" Version="1.16.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="TGC.CSharpCodingStandards" Version="2.1.0" />
