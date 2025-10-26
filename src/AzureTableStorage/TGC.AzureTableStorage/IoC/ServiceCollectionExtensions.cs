@@ -63,7 +63,7 @@ public static class ServiceCollectionExtensions
 
 	private static IServiceCollection AddStubbedCoreServices(this IServiceCollection services)
 	{
-		services.AddScoped(typeof(IAzureTableStorageRepository<>), typeof(StubbedAzureStableStorageRepository<>));
+		services.AddSingleton(typeof(IAzureTableStorageRepository<>), typeof(StubbedAzureStableStorageRepository<>));
 
 		return services;
 	}
