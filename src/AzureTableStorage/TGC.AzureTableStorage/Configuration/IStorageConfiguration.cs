@@ -21,6 +21,11 @@ public interface IStorageConfiguration
 	bool UseManagedIdentity { get; set; }
 
 	/// <summary>
+	/// Gets or sets a value indicating whether to use managed identity for authentication.
+	/// </summary>
+	Guid ManagedIdentityId { get; set; }
+
+	/// <summary>
 	/// Gets or sets a value indicating whether to stub services for testing or development purposes.
 	/// </summary>
 	bool StubServices { get; set; }

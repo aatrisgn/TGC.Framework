@@ -1,4 +1,5 @@
-﻿using Azure.Data.Tables;
+﻿using Azure.Core;
+using Azure.Data.Tables;
 using Azure.Identity;
 using TGC.AzureTableStorage.Configuration;
 
@@ -47,7 +48,17 @@ internal sealed class TableClientFactory(IStorageConfiguration storageConfigurat
 		{
 			if (!string.IsNullOrEmpty(_storageConfiguration.StorageAccountUrl))
 			{
-				return new TableServiceClient(new Uri(_storageConfiguration.StorageAccountUrl), new DefaultAzureCredential());
+				TokenCredential credential;
+				if (_storageConfiguration.ManagedIdentityId != Guid.Empty)
+				{
+					credential = new ManagedIdentityCredential(
+						ManagedIdentityId.FromUserAssignedClientId(_storageConfiguration.ManagedIdentityId.ToString()));
+				}
+				else
+				{
+					credential = new DefaultAzureCredential();
+				}
+				return new TableServiceClient(new Uri(_storageConfiguration.StorageAccountUrl), credential);
 			}
 
 			throw new ArgumentNullException($"{_storageConfiguration.StorageAccountUrl} is not defined.");
