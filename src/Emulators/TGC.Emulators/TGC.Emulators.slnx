@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TGC.Emulators.App/TGC.Emulators.App.csproj" />
+  <Project Path="TGC.Emulators.Tests/TGC.Emulators.Tests.csproj" />
+</Solution>

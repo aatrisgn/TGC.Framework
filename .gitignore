@@ -204,6 +204,10 @@ csx/
 ecf/
 rcf/
 
+# TGC.Emulators local docker stack
+src/Emulators/docker/.data/
+src/Emulators/docker/.env
+
 # Windows Store app package directories and files
 AppPackages/
 BundleArtifacts/
