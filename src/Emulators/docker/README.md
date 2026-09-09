@@ -20,23 +20,41 @@ binds:
 | Service Bus | `127.0.0.1:5672` |
 | Event Hubs | `127.0.0.2:5672` |
 
-## macOS setup
+## Loopback alias setup
+
+### macOS (verified — an M3 Pro on macOS 26.5)
 
 macOS doesn't route extra `127.x` addresses to loopback by default (unlike
 Linux), so `127.0.0.2` has to be added manually — **every time after a reboot**,
 before bringing the stack up:
 
 ```bash
-./scripts/setup-loopback-alias.sh
+./scripts/mac-setup-loopback-alias.sh
 ```
 
 This is a one-shot script (prompts for `sudo`), not an installed system service —
 it won't survive a reboot, and it's not meant to.
 
-> **Windows / WSL2**: untested, but both native Windows and Linux (which is what
-> WSL2's networking is built on) route the entire `127.0.0.0/8` block to loopback
-> by default, so `127.0.0.2` should already be bindable with no equivalent setup
-> step at all. If it turns out not to be, the Windows equivalent is a one-shot
+### Linux / WSL2 (untested — conceptually should just work)
+
+Unlike macOS, Linux (and WSL2, whose networking is a real Linux kernel) routes
+the entire `127.0.0.0/8` block to loopback by default, so `127.0.0.2` should
+already be usable with no setup at all. Run this anyway before bringing the
+stack up — it verifies that and only falls back to adding the address if
+something on the system has been configured not to route it:
+
+```bash
+./scripts/linux-setup-loopback-alias.sh
+```
+
+Same one-shot, non-persistent behavior as the macOS script. I haven't been able
+to verify this on a real Linux/WSL2 machine (this stack was built on a Mac) —
+please report back if it doesn't behave as expected.
+
+> **Native Windows (not WSL2)**: also untested, but native Windows routes the
+> entire `127.0.0.0/8` block to loopback by default too, so the same "should
+> just work, no setup needed" reasoning applies. If it turns out not to be, the
+> Windows equivalent is a one-shot
 > `netsh interface ipv4 add address "Loopback Pseudo-Interface 1" 127.0.0.2 255.0.0.0`.
 
 ## Running the stack
@@ -44,7 +62,7 @@ it won't survive a reboot, and it's not meant to.
 1. Copy `.env.example` to `.env` and fill in `ACCEPT_EULA=Y` and a `MSSQL_SA_PASSWORD`.
    The stack won't start without `ACCEPT_EULA=Y` — Service Bus and Event Hubs both refuse
    to launch and exit immediately if it's missing/not `Y`.
-2. (macOS only) `./scripts/setup-loopback-alias.sh`
+2. Run the loopback alias script for your OS (see above).
 3. `docker compose -f compose.yaml up -d`
 4. `docker ps` to confirm all five containers (`cosmos-emulator`, `servicebus-emulator`,
    `mssql`, `eventhubs-emulator`, `azurite`) are `Up`.
