@@ -1,6 +1,6 @@
 namespace TGC.Communication.cqrs;
 
-public abstract class BaseCommand : ICommand
+public abstract record BaseCommand : ICommand
 {
 	
 }

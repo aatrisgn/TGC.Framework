@@ -24,4 +24,9 @@ public abstract class BaseCommandHandler<TCommand, TCommandResponse> where TComm
 	{
 		return Result<TCommandResponse>.AsNotFound(error);
 	}
+	
+	protected Result<TCommandResponse> AsNoContent()
+	{
+		return Result<TCommandResponse>.AsNoContent();
+	}
 }

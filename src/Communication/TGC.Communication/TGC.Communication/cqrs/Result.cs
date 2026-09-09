@@ -33,6 +33,7 @@ public class Result<T> : IResult<T> where T : IMediatorResponse
 		return StatusCode switch
 		{
 			HttpStatusCode.OK => new OkObjectResult(Value),
+			HttpStatusCode.NoContent => new NoContentResult(),
 			HttpStatusCode.BadRequest => new BadRequestObjectResult(Error),
 			HttpStatusCode.NotFound => new NotFoundObjectResult(Error),
 			HttpStatusCode.Conflict => new ConflictObjectResult(Error),
@@ -41,6 +42,7 @@ public class Result<T> : IResult<T> where T : IMediatorResponse
 	}
 	
 	public static Result<T> AsOk(T value) => new Result<T>(true, value, HttpStatusCode.OK, null);
+	public static Result<T> AsNoContent() => new Result<T>(true, default, HttpStatusCode.NoContent, null);
 	public static Result<T> AsBadRequest(string error) => new Result<T>(false, default, HttpStatusCode.BadRequest, error);
 	public static Result<T> AsNotFound(string error) => new Result<T>(false, default, HttpStatusCode.NotFound, error);
 	public static Result<T> AsConflict(string error) => new Result<T>(false, default, HttpStatusCode.Conflict, error);

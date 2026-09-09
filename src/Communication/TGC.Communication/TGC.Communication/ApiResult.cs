@@ -76,6 +76,8 @@ public class ApiResult
 				return new NotFoundResult();
 			case HttpStatusCode.OK:
 				return new OkResult();
+			case HttpStatusCode.NoContent:
+				return new NoContentResult();
 			default:
 				throw new Exception("No HttpStatusCode were handled."); //Should be changed to another exception type later
 		}
