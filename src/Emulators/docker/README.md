@@ -51,13 +51,13 @@ Same one-shot, non-persistent behavior as the macOS script. I haven't been able
 to verify this on a real Linux/WSL2 machine (this stack was built on a Mac) —
 please report back if it doesn't behave as expected.
 
-### Native Windows, not WSL2 (untested — conceptually should just work)
+### Native Windows, not WSL2 (verified — see caveat below)
 
 Native Windows also routes the entire `127.0.0.0/8` block to loopback by
-default, so the same "should just work, no setup needed" reasoning as Linux
-applies here too. Run this anyway from a regular (non-elevated) PowerShell
-prompt before bringing the stack up — it verifies that with a real TCP bind
-and only falls back to adding the address if the bind actually fails:
+default, so `127.0.0.2` is bindable with no setup, same as Linux. Run this
+anyway from a regular (non-elevated) PowerShell prompt before bringing the
+stack up — it verifies that with a real TCP bind and only falls back to
+adding the address if the bind actually fails:
 
 ```powershell
 .\scripts\windows-setup-loopback-alias.ps1
@@ -73,18 +73,59 @@ Unlike the macOS/Linux scripts, this one is **not guaranteed to be
 non-persistent** — Windows-added loopback addresses typically survive a
 reboot as part of normal interface config, though that hasn't been verified
 end-to-end. If it turns out not to survive a reboot, just re-run the script
-the same way as the others. I haven't been able to verify this script on a
-real Windows machine (this stack was built on a Mac; only the bind-check
-logic itself, which is plain cross-platform .NET, was tested) — please report
-back if it doesn't behave as expected.
+the same way as the others.
+
+**Caveat — Rancher Desktop on Windows does not route by IP for identical
+ports.** Even though `127.0.0.2` is genuinely bindable and reachable (verified
+with `Test-NetConnection` and `curl` directly against it), Rancher Desktop's
+Windows-side port-forwarding does not reliably distinguish `127.0.0.1:5672`
+from `127.0.0.2:5672` — both end up answered by whichever container's mapping
+wins internally, rather than being routed by the requested host IP. This only
+showed up as a client-side symptom (the Event Hubs .NET SDK silently talking
+to the Service Bus emulator instead, or vice versa, depending on which
+service Rancher happened to route port 5672 to) — `docker compose port`,
+`docker ps`, and raw TCP/HTTP checks all looked correct throughout, which is
+what made this take a while to pin down. It reproduces with either service
+placed on `127.0.0.2`, so it's tied to the IP/port-forwarding mechanism, not
+anything specific to Event Hubs.
+
+This isn't fixable via `.wslconfig`'s `networkingMode=mirrored` (which
+resolves the equivalent class of problem for plain WSL2 without Rancher) if
+your organization's WSL policy locks that setting — check
+`Get-NetFirewallRule`/enterprise WSL policy docs if `wsl --shutdown` +
+`.wslconfig` changes silently don't take effect. Assuming that's the case,
+the workaround here is to stop asking Rancher to disambiguate by IP at all:
+
+1. Bring the stack up with the Windows override, which republishes Event Hubs
+   on `127.0.0.1` at alternate host ports instead of `127.0.0.2` at the
+   standard ones — single-IP, distinct-port forwarding through Rancher has
+   not shown this problem:
+   ```powershell
+   docker compose -f compose.yaml -f compose.windows.yaml up -d
+   ```
+2. Run the portproxy script (elevated — `netsh interface portproxy` requires
+   Administrator) to make `127.0.0.2` keep answering on the standard ports
+   the connection string expects, via a plain OS-level TCP relay that has
+   nothing to do with Rancher/Docker:
+   ```powershell
+   .\scripts\windows-setup-eventhub-portproxy.ps1
+   ```
+
+With both in place, the connection strings in the table below work unchanged
+— the indirection is invisible to the client. This hasn't been verified
+end-to-end yet (the underlying Rancher Desktop routing bug was only just
+isolated) — please report back if it doesn't behave as expected.
 
 ## Running the stack
 
 1. Copy `.env.example` to `.env` and fill in `ACCEPT_EULA=Y` and a `MSSQL_SA_PASSWORD`.
    The stack won't start without `ACCEPT_EULA=Y` — Service Bus and Event Hubs both refuse
    to launch and exit immediately if it's missing/not `Y`.
-2. Run the loopback alias script for your OS (see above).
-3. `docker compose -f compose.yaml up -d`
+2. Run the loopback alias script for your OS (see above). On Windows, also run
+   `.\scripts\windows-setup-eventhub-portproxy.ps1` (elevated) — see the Rancher
+   Desktop caveat above.
+3. macOS/Linux: `docker compose -f compose.yaml up -d`
+   Windows: `docker compose -f compose.yaml -f compose.windows.yaml up -d`
 4. `docker ps` to confirm all five containers (`cosmos-emulator`, `servicebus-emulator`,
    `mssql`, `eventhubs-emulator`, `azurite`) are `Up`.
 

@@ -1,0 +1,25 @@
+# Windows-only override for compose.yaml.
+#
+# Rancher Desktop's Windows port-forwarding does not reliably distinguish
+# 127.0.0.1:PORT from 127.0.0.2:PORT when the port number is identical - both
+# addresses end up answered by whichever container's mapping wins internally,
+# rather than routing by the requested host IP. See README.md for the full
+# investigation. macOS and Linux don't have this problem (confirmed working
+# there), so this override is Windows-specific rather than a change to the
+# base compose.yaml.
+#
+# Workaround: publish Event Hubs on 127.0.0.1 (the loopback address that has
+# never shown this problem) at alternate host ports instead of 127.0.0.2 at
+# the standard ports, then use scripts/windows-setup-eventhub-portproxy.ps1 to
+# make 127.0.0.2 continue answering on the original ports via a plain OS-level
+# netsh portproxy relay - independent of Rancher/Docker's own forwarding.
+#
+# Usage (Windows only):
+#   docker compose -f compose.yaml -f compose.windows.yaml up -d
+
+services:
+  eventhubs:
+    ports:
+      - "127.0.0.1:15672:5672"
+      - "127.0.0.1:19092:9092"
+      - "127.0.0.1:15300:5300"
