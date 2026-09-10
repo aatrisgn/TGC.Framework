@@ -91,30 +91,44 @@ anything specific to Event Hubs.
 
 This isn't fixable via `.wslconfig`'s `networkingMode=mirrored` (which
 resolves the equivalent class of problem for plain WSL2 without Rancher) if
-your organization's WSL policy locks that setting — check
-`Get-NetFirewallRule`/enterprise WSL policy docs if `wsl --shutdown` +
-`.wslconfig` changes silently don't take effect. Assuming that's the case,
-the workaround here is to stop asking Rancher to disambiguate by IP at all:
+your organization's WSL policy locks that setting, as is common on corporate
+machines. Hostname/DNS-based routing (a `hosts` file entry, a reverse proxy
+doing Host-header or SNI routing, Envoy Gateway, etc.) doesn't help either —
+these emulators use plain, unencrypted AMQP (`UseDevelopmentEmulator=true`),
+which carries no hostname information on the wire (no SNI, since there's no
+TLS; no Host header, since it's not HTTP). DNS resolution happens entirely
+client-side before the connection opens, so by the time any packet reaches a
+server-side router, all that exists is a destination IP:port — two hostnames
+only help if they resolve to two genuinely different, correctly-routable
+IPs, which is exactly the underlying problem, not a way around it.
+
+So the workaround is to stop asking Rancher to disambiguate by IP at all, and
+relay `127.0.0.2` to a real IP using tooling that has nothing to do with
+Rancher/Docker:
 
 1. Bring the stack up with the Windows override, which republishes Event Hubs
-   on `127.0.0.1` at alternate host ports instead of `127.0.0.2` at the
-   standard ones — single-IP, distinct-port forwarding through Rancher has
-   not shown this problem:
+   at alternate host ports, unbound to any specific host IP (reachable via
+   both the Rancher WSL2 VM's own loopback and its real assigned IP) instead
+   of on `127.0.0.2` at the standard ports:
    ```powershell
    docker compose -f compose.yaml -f compose.windows.yaml up -d
    ```
 2. Run the portproxy script (elevated — `netsh interface portproxy` requires
-   Administrator) to make `127.0.0.2` keep answering on the standard ports
-   the connection string expects, via a plain OS-level TCP relay that has
-   nothing to do with Rancher/Docker:
+   Administrator) every time Rancher Desktop (re)starts. It resolves the
+   Rancher WSL2 VM's current real IP (not stable across restarts) and relays
+   `127.0.0.2`'s standard ports there — the same documented `netsh portproxy`
+   pattern used to expose a WSL2-hosted server to the LAN. A first attempt
+   relayed loopback-to-loopback (`127.0.0.2` → `127.0.0.1:<alt port>`)
+   instead, which did not work even with the IP Helper service confirmed
+   running — loopback-to-real-IP is the supported combination, not
+   loopback-to-loopback:
    ```powershell
    .\scripts\windows-setup-eventhub-portproxy.ps1
    ```
 
 With both in place, the connection strings in the table below work unchanged
 — the indirection is invisible to the client. This hasn't been verified
-end-to-end yet (the underlying Rancher Desktop routing bug was only just
-isolated) — please report back if it doesn't behave as expected.
+end-to-end yet — please report back if it doesn't behave as expected.
 
 ## Running the stack
 
@@ -145,6 +159,25 @@ survives `docker compose down`/`up`. The Service Bus and Event Hubs emulators do
 support data persistence — their entities and messages reset on every container restart,
 which is why they're declared up front in `config/servicebus.Config.json` and
 `config/eventhub.Config.json` rather than created at runtime.
+
+## Running tests in a throwaway Docker-in-Docker container
+
+`Dockerfile.dind` packages the whole flow above (bring up the stack, run the
+Emulators unit tests) into one disposable container with its own nested
+Docker engine — a local experiment, not a CI image. It clones this repo at
+build time, so it's self-contained; nothing from your working tree is used.
+
+```bash
+docker build -f src/Emulators/docker/Dockerfile.dind -t tgc-emulators-dind src/Emulators/docker
+docker run --rm --privileged tgc-emulators-dind
+```
+
+`--privileged` is required — the container runs its own `dockerd` inside
+itself rather than reusing the host's. The image bakes in a throwaway
+`.env` (`ACCEPT_EULA=Y` + a dummy `MSSQL_SA_PASSWORD`), so no setup is
+needed beyond having Docker installed on the host. Exit code reflects
+`dotnet test`'s pass/fail result. To test a different branch, pass
+`--build-arg GIT_REF=<branch>` to the build.
 
 ## Endpoints & well-known connection strings
 

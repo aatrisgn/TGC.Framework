@@ -1,0 +1,42 @@
+name: Test TGC.Emulators
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Configure emulator stack environment
+      run: |
+        echo "ACCEPT_EULA=Y" >> src/Emulators/docker/.env
+        echo "MSSQL_SA_PASSWORD=Tgc-Emulators-Ci-$(date +%s)!" >> src/Emulators/docker/.env
+
+    - name: Ensure iproute2 is available
+      run: command -v ip >/dev/null || (sudo apt-get update && sudo apt-get install -y iproute2)
+
+    - name: Set up the 127.0.0.2 loopback alias for the Event Hubs emulator
+      run: ./src/Emulators/docker/scripts/linux-setup-loopback-alias.sh
+
+    - name: Start the emulator stack
+      working-directory: src/Emulators/docker
+      run: docker compose -f compose.yaml up -d
+
+    - name: Wait for emulators to be ready
+      run: ./src/Emulators/docker/scripts/wait-for-emulators.sh
+
+    - name: Run Emulators tests
+      run: dotnet test src/Emulators/TGC.Emulators/TGC.Emulators.Tests/TGC.Emulators.Tests.csproj
+
+    - name: Show emulator container logs
+      if: always()
+      working-directory: src/Emulators/docker
+      run: docker compose -f compose.yaml logs

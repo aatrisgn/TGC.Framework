@@ -8,18 +8,31 @@
 # there), so this override is Windows-specific rather than a change to the
 # base compose.yaml.
 #
-# Workaround: publish Event Hubs on 127.0.0.1 (the loopback address that has
-# never shown this problem) at alternate host ports instead of 127.0.0.2 at
-# the standard ports, then use scripts/windows-setup-eventhub-portproxy.ps1 to
-# make 127.0.0.2 continue answering on the original ports via a plain OS-level
-# netsh portproxy relay - independent of Rancher/Docker's own forwarding.
+# Workaround: publish Event Hubs at alternate host ports (not bound to any
+# specific IP, so it's reachable both via the VM's own 127.0.0.1 and via the
+# VM's real assigned IP address) instead of on 127.0.0.2 at the standard
+# ports. scripts/windows-setup-eventhub-portproxy.ps1 then uses netsh
+# portproxy to make 127.0.0.2 answer on the original ports by relaying to the
+# VM's real IP - not to another loopback alias. A first attempt relayed
+# loopback-to-loopback (127.0.0.2 -> 127.0.0.1:15672) and that did NOT work
+# even with the IP Helper service running; loopback-to-real-IP is the
+# documented, well-supported netsh portproxy pattern (the same one used to
+# expose a WSL2-hosted server to the LAN), so that's what this now targets.
 #
 # Usage (Windows only):
 #   docker compose -f compose.yaml -f compose.windows.yaml up -d
 
+# NOTE: `ports:` uses the `!override` YAML tag deliberately. Compose's default
+# merge behavior for list-type fields like `ports` is to CONCATENATE the base
+# file's list with this one, not replace it - so without `!override`, Event
+# Hubs would end up published on BOTH 127.0.0.2:5672 (from compose.yaml) AND
+# the ports below, leaving Rancher's broken 127.0.0.2 relay from compose.yaml
+# still active. `!override` forces a full replace.
+# Verify with: docker compose -f compose.yaml -f compose.windows.yaml config
+# (eventhubs' ports should show ONLY the three entries below, unprefixed).
 services:
   eventhubs:
-    ports:
-      - "127.0.0.1:15672:5672"
-      - "127.0.0.1:19092:9092"
-      - "127.0.0.1:15300:5300"
+    ports: !override
+      - "15672:5672"
+      - "19092:9092"
+      - "15300:5300"
