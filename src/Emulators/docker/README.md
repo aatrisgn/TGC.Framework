@@ -51,11 +51,32 @@ Same one-shot, non-persistent behavior as the macOS script. I haven't been able
 to verify this on a real Linux/WSL2 machine (this stack was built on a Mac) —
 please report back if it doesn't behave as expected.
 
-> **Native Windows (not WSL2)**: also untested, but native Windows routes the
-> entire `127.0.0.0/8` block to loopback by default too, so the same "should
-> just work, no setup needed" reasoning applies. If it turns out not to be, the
-> Windows equivalent is a one-shot
-> `netsh interface ipv4 add address "Loopback Pseudo-Interface 1" 127.0.0.2 255.0.0.0`.
+### Native Windows, not WSL2 (untested — conceptually should just work)
+
+Native Windows also routes the entire `127.0.0.0/8` block to loopback by
+default, so the same "should just work, no setup needed" reasoning as Linux
+applies here too. Run this anyway from a regular (non-elevated) PowerShell
+prompt before bringing the stack up — it verifies that with a real TCP bind
+and only falls back to adding the address if the bind actually fails:
+
+```powershell
+.\scripts\windows-setup-loopback-alias.ps1
+```
+
+It doesn't hardcode the loopback interface's name (`"Loopback Pseudo-Interface
+1"` isn't guaranteed stable across Windows versions/locales) — the fallback
+looks up whichever interface already owns `127.0.0.1` and adds the alias
+there instead, and only asks to be re-run elevated (as Administrator) if that
+fallback path actually needs to run.
+
+Unlike the macOS/Linux scripts, this one is **not guaranteed to be
+non-persistent** — Windows-added loopback addresses typically survive a
+reboot as part of normal interface config, though that hasn't been verified
+end-to-end. If it turns out not to survive a reboot, just re-run the script
+the same way as the others. I haven't been able to verify this script on a
+real Windows machine (this stack was built on a Mac; only the bind-check
+logic itself, which is plain cross-platform .NET, was tested) — please report
+back if it doesn't behave as expected.
 
 ## Running the stack
 

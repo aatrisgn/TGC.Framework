@@ -58,8 +58,8 @@ services:
   # AMQP bound to 127.0.0.2 (not 127.0.0.1) so it doesn't collide with the Service Bus
   # emulator above on port 5672 — both SDKs hardcode 5672 regardless of the port in the
   # connection string, so a distinct loopback IP is the only way to run both at once.
-  # Run scripts/mac-setup-loopback-alias.sh (macOS) or scripts/linux-setup-loopback-alias.sh
-  # (Linux/WSL2) once before starting this stack. See README.md.
+  # Run the matching scripts/*-setup-loopback-alias.* script for your OS once before
+  # starting this stack (mac-/linux-/windows-). See README.md.
   eventhubs:
     container_name: "eventhubs-emulator"
     image: "mcr.microsoft.com/azure-messaging/eventhubs-emulator:latest"
